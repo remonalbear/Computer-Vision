@@ -33,9 +33,12 @@ class GUI(Ui_MainWindow):
         #link events with functions   
         self.noiseOptions.currentTextChanged.connect(self.applyNoise)
         self.applyNoise("Uniform")
+    #add noise functions
+    #rerender when the slider changed
     def noiseSliderChange(self):
         self.noiseSliderValue=self.noiseSlider.value()
         self.applyNoise(self.noiseOptions.currentText())
+    #add the noise and display
     def applyNoise(self,value):
         self.noiseImageData=np.array(self.originalImageData.copy())
         if (value == "Guassian"):
