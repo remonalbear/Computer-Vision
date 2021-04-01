@@ -54,16 +54,16 @@ class GUI(Ui_MainWindow):
 ####################################################################################################
 
         ### This part for Normalized Image ###
-        def normalize_image(img):
-            minValue = 0
-            maxValue = max(img.flatten())
-            values = np.zeros(img.shape)
-            for i in range(img.shape[0]):
-                for j in range(img.shape[1]):
-                    values[i,j] = (img[i,j] - minValue)/(maxValue - minValue) * 255.0
-            return values
-        nr = normalize_image(img)
-        self.plotItem.setImage(nr.T) # P.S. PlotItem type is: ImageView
+        # def normalize_image(img):
+        #     minValue = 0
+        #     maxValue = max(img.flatten())
+        #     values = np.zeros(img.shape)
+        #     for i in range(img.shape[0]):
+        #         for j in range(img.shape[1]):
+        #             values[i,j] = (img[i,j] - minValue)/(maxValue - minValue) * 255.0
+        #     return values
+        # nr = normalize_image(img)
+        # self.plotItem.setImage(nr.T) # P.S. PlotItem type is: ImageView
 
 
 
