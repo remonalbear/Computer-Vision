@@ -2,7 +2,7 @@
 # - Draw histogram and distribution curve [Done]
 # - Equalize the image [Done]
 # - Normalize the image
-from collections import Counter
+# from collections import Counter # Replaced
 from cv2 import cv2 as cv
 from PyQt5 import QtCore, QtGui,QtWidgets
 import numpy as np

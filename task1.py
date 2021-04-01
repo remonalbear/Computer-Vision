@@ -1,10 +1,11 @@
 # from UI import * 
-import pyqtgraph
+import pyqtgraph as pg
 from PyQt5 import QtCore, QtGui,QtWidgets
 from cv2 import cv2 as cv
 import numpy as np
 import random
 from UI import Ui_MainWindow
+# from collections import Counter # Replaced
 
 
 class GUI(Ui_MainWindow):
@@ -14,13 +15,15 @@ class GUI(Ui_MainWindow):
         self.images=[self.filteredImage,self.noiseImage,self.edgeDetectionImage,
                     self.freqeuncyFilteredImage,self.equalizedImage,self.normalizedImage,
                     self.originalImage,self.redChannel,self.greenChannel,self.blueChannel,
-                    self.imageOne,self.imageTwo,self.mixedImage,self.grayScaleImage]    
+                    self.imageOne,self.imageTwo,self.mixedImage,self.grayScaleImage]   
+
         #removing unwanted options from the image display widget
         for i in range(len(self.images)):
             self.images[i].ui.histogram.hide()
             self.images[i].ui.roiPlot.hide()
             self.images[i].ui.roiBtn.hide()
-            self.images[i].ui.menuBtn.hide() 
+            self.images[i].ui.menuBtn.hide()
+            
         #noise slide configrations
         self.noiseSlider.setValue(20)
         self.noiseSlider.setMaximum(50)
@@ -55,12 +58,63 @@ class GUI(Ui_MainWindow):
                     elif rand>thresh:
                         self.noiseImageData[i][j]=255
         elif(value == "Uniform"):
-            print("yes in uniform ")
-            print("before",self.noiseImageData)
+            # print("yes in uniform ")
+            # print("before",self.noiseImageData)
             self.noiseImageData =self.noiseImageData+self.noiseSliderValue
-            print("after",self.noiseImageData)
+            # print("after",self.noiseImageData)
         self.noiseImage.setImage(self.noiseImageData.T)
         self.noiseImage.show()
+
+        
+###################################################################################################
+
+        def df(img):
+            values = [0]*256
+            for i in range(img.shape[0]):
+                for j in range(img.shape[1]):
+                    values[img[i,j]]+=1
+            return values
+
+        ## This part for Histogram Graph ###
+        x = np.linspace(0, 255, num=256)
+        y = df(self.originalImageData)
+        bg = pg.BarGraphItem(x=x, height=y, width=1, brush='r')
+        self.originalHistogram.addItem(bg) # P.S. PlotItem type is: PlotWidget
+
+###################################################################################################
+
+        ## This part for Equalized Image ###
+        def cdf(hist):
+            cdf = [0] * len(hist)
+            cdf[0] = hist[0]
+            for i in range(1, len(hist)):
+                cdf[i]= cdf[i-1]+hist[i]
+            cdf = [ele*255/cdf[-1] for ele in cdf]
+            return cdf
+        def equalize_image(image):
+            my_cdf = cdf(df(self.originalImageData))
+            image_equalized = np.interp(image, range(0,256), my_cdf)
+            return image_equalized
+        eq = equalize_image(self.originalImageData)
+        self.equalizedImage.ui.histogram.show()
+        self.equalizedImage.setImage(eq.T) # P.S. PlotItem type is: ImageView
+
+###################################################################################################
+
+        ## This part for Normalized Image ###
+        def normalize_image(img):
+            minValue = 0
+            maxValue = max(img.flatten())
+            values = np.zeros(img.shape)
+            for i in range(img.shape[0]):
+                for j in range(img.shape[1]):
+                    values[i,j] = (img[i,j] - minValue)/(maxValue - minValue) * 255.0
+            return values
+        nr = normalize_image(self.originalImageData)
+        self.normalizedImage.ui.histogram.show()
+        self.normalizedImage.setImage(nr.T) # P.S. PlotItem type is: ImageView
+
+################################################################################################### 
             
 if __name__ == "__main__":
     import sys
