@@ -1,9 +1,10 @@
-from UI import * 
+# from UI import * 
 import pyqtgraph
 from PyQt5 import QtCore, QtGui,QtWidgets
-import cv2 as cv
+from cv2 import cv2 as cv
 import numpy as np
 import random
+from UI import Ui_MainWindow
 
 
 class GUI(Ui_MainWindow):
@@ -27,7 +28,7 @@ class GUI(Ui_MainWindow):
         self.noiseSlider.valueChanged.connect(self.noiseSliderChange)
         self.noiseSliderValue=20
         #display the original image
-        self.originalImageData=cv.imread('D:\CV\Task1\\test.jpg',0)
+        self.originalImageData=cv.imread('test.jpg',0)
         self.originalImage.setImage(self.originalImageData.T)    
         self.originalImage.show()
         #link events with functions   
