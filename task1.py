@@ -14,7 +14,7 @@ class GUI(Ui_MainWindow):
 
         self.images=[self.filteredImage,self.noiseImage,self.edgeDetectionImage,
                     self.freqeuncyFilteredImage,self.equalizedImage,self.normalizedImage,
-                    self.originalImage,self.redChannel,self.greenChannel,self.blueChannel,
+                    self.redChannel,self.greenChannel,self.blueChannel,
                     self.imageOne,self.imageTwo,self.mixedImage,self.grayScaleImage]   
 
         #removing unwanted options from the image display widget
@@ -30,11 +30,13 @@ class GUI(Ui_MainWindow):
         self.noiseSlider.setMinimum(0) 
         self.noiseSlider.valueChanged.connect(self.noiseSliderChange)
         self.noiseSliderValue=20
-        #display the original image
-        self.originalImageData=cv.imread('test.jpg',0)
-        self.originalImage.setImage(self.originalImageData.T)    
-        self.originalImage.show()
-        #link events with functions   
+        #retrieve the original image data
+        self.originalImageData=cv.imread('test.jpg')
+        #display the grayscale image
+        self.grayScaleImageData=cv.cvtColor(self.originalImageData, cv.COLOR_BGR2GRAY)
+        self.grayScaleImage.setImage(self.grayScaleImageData.T)
+        self.grayScaleImage.show()
+        #link events with functions 
         self.noiseOptions.currentTextChanged.connect(self.applyNoise)
         self.applyNoise("Uniform")
     #add noise functions
@@ -44,14 +46,14 @@ class GUI(Ui_MainWindow):
         self.applyNoise(self.noiseOptions.currentText())
     #add the noise and display
     def applyNoise(self,value):
-        self.noiseImageData=np.array(self.originalImageData.copy())
+        self.noiseImageData=np.array(self.grayScaleImageData.copy())
         if (value == "Guassian"):
             self.noiseImageData=self.noiseImageData+np.random.normal(0,self.noiseSliderValue**.5,self.noiseImageData.shape)
         elif(value == "Salt & Pepper"):
             prop=self.noiseSliderValue/200.0
             thresh=1-prop
-            for i in range(self.originalImageData.shape[0]):
-                for j in range(self.originalImageData.shape[1]):
+            for i in range(self.grayScaleImageData.shape[0]):
+                for j in range(self.grayScaleImageData.shape[1]):
                     rand=random.random()
                     if rand<prop :
                         self.noiseImageData[i][j]=0
@@ -77,7 +79,7 @@ class GUI(Ui_MainWindow):
 
         ## This part for Histogram Graph ###
         x = np.linspace(0, 255, num=256)
-        y = df(self.originalImageData)
+        y = df(self.grayScaleImageData)
         bg = pg.BarGraphItem(x=x, height=y, width=1, brush='r')
         self.originalHistogram.addItem(bg) # P.S. PlotItem type is: PlotWidget
 
@@ -92,10 +94,10 @@ class GUI(Ui_MainWindow):
             cdf = [ele*255/cdf[-1] for ele in cdf]
             return cdf
         def equalize_image(image):
-            my_cdf = cdf(df(self.originalImageData))
+            my_cdf = cdf(df(self.grayScaleImageData))
             image_equalized = np.interp(image, range(0,256), my_cdf)
             return image_equalized
-        eq = equalize_image(self.originalImageData)
+        eq = equalize_image(self.grayScaleImageData)
         self.equalizedImage.ui.histogram.show()
         self.equalizedImage.setImage(eq.T) # P.S. PlotItem type is: ImageView
 
@@ -110,7 +112,7 @@ class GUI(Ui_MainWindow):
                 for j in range(img.shape[1]):
                     values[i,j] = (img[i,j] - minValue)/(maxValue - minValue) * 255.0
             return values
-        nr = normalize_image(self.originalImageData)
+        nr = normalize_image(self.grayScaleImageData)
         self.normalizedImage.ui.histogram.show()
         self.normalizedImage.setImage(nr.T) # P.S. PlotItem type is: ImageView
 

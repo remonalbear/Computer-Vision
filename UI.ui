@@ -72,7 +72,14 @@
                       </widget>
                      </item>
                      <item>
-                      <widget class="ImageView" name="originalImage" native="true"/>
+                      <widget class="QLabel" name="originalImage">
+                       <property name="pixmap">
+                        <pixmap>test.jpg</pixmap>
+                       </property>
+                       <property name="scaledContents">
+                        <bool>true</bool>
+                       </property>
+                      </widget>
                      </item>
                     </layout>
                    </item>
@@ -434,81 +441,61 @@
                       <enum>QFrame::Raised</enum>
                      </property>
                      <layout class="QGridLayout" name="gridLayout_5">
-                      <item row="0" column="0">
-                       <layout class="QVBoxLayout" name="verticalLayout">
+                      <item row="0" column="0" colspan="2">
+                       <widget class="QLabel" name="label">
+                        <property name="maximumSize">
+                         <size>
+                          <width>16777215</width>
+                          <height>25</height>
+                         </size>
+                        </property>
+                        <property name="font">
+                         <font>
+                          <pointsize>12</pointsize>
+                         </font>
+                        </property>
+                        <property name="text">
+                         <string>Noisy Image</string>
+                        </property>
+                        <property name="alignment">
+                         <set>Qt::AlignCenter</set>
+                        </property>
+                       </widget>
+                      </item>
+                      <item row="2" column="0">
+                       <widget class="QComboBox" name="noiseOptions">
                         <item>
-                         <widget class="QLabel" name="label">
-                          <property name="maximumSize">
-                           <size>
-                            <width>16777215</width>
-                            <height>25</height>
-                           </size>
-                          </property>
-                          <property name="font">
-                           <font>
-                            <pointsize>12</pointsize>
-                           </font>
-                          </property>
-                          <property name="text">
-                           <string>Noisy Image</string>
-                          </property>
-                          <property name="alignment">
-                           <set>Qt::AlignCenter</set>
-                          </property>
-                         </widget>
+                         <property name="text">
+                          <string>Uniform</string>
+                         </property>
                         </item>
                         <item>
-                         <widget class="ImageView" name="noiseImage" native="true"/>
+                         <property name="text">
+                          <string>Guassian</string>
+                         </property>
                         </item>
                         <item>
-                         <widget class="QFrame" name="frame_17">
-                          <property name="frameShape">
-                           <enum>QFrame::StyledPanel</enum>
-                          </property>
-                          <property name="frameShadow">
-                           <enum>QFrame::Raised</enum>
-                          </property>
-                          <layout class="QGridLayout" name="gridLayout_3">
-                           <item row="0" column="0">
-                            <layout class="QHBoxLayout" name="horizontalLayout">
-                             <item>
-                              <widget class="QComboBox" name="noiseOptions">
-                               <item>
-                                <property name="text">
-                                 <string>Uniform</string>
-                                </property>
-                               </item>
-                               <item>
-                                <property name="text">
-                                 <string>Guassian</string>
-                                </property>
-                               </item>
-                               <item>
-                                <property name="text">
-                                 <string>Salt &amp; Pepper</string>
-                                </property>
-                               </item>
-                              </widget>
-                             </item>
-                             <item>
-                              <widget class="QSlider" name="noiseSlider">
-                               <property name="sizePolicy">
-                                <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-                                 <horstretch>0</horstretch>
-                                 <verstretch>0</verstretch>
-                                </sizepolicy>
-                               </property>
-                               <property name="orientation">
-                                <enum>Qt::Horizontal</enum>
-                               </property>
-                              </widget>
-                             </item>
-                            </layout>
-                           </item>
-                          </layout>
-                         </widget>
+                         <property name="text">
+                          <string>Salt &amp; Pepper</string>
+                         </property>
                         </item>
-                       </layout>
+                       </widget>
+                      </item>
+                      <item row="1" column="0" colspan="2">
+                       <widget class="ImageView" name="noiseImage" native="true"/>
+                      </item>
+                      <item row="2" column="1">
+                       <widget class="QSlider" name="noiseSlider">
+                        <property name="sizePolicy">
+                         <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                          <horstretch>0</horstretch>
+                          <verstretch>0</verstretch>
+                         </sizepolicy>
+                        </property>
+                        <property name="orientation">
+                         <enum>Qt::Horizontal</enum>
+                        </property>
+                       </widget>
                       </item>
                      </layout>
                     </widget>
@@ -522,52 +509,48 @@
                       <enum>QFrame::Raised</enum>
                      </property>
                      <layout class="QGridLayout" name="gridLayout_4">
+                      <item row="1" column="0">
+                       <widget class="ImageView" name="filteredImage" native="true"/>
+                      </item>
+                      <item row="2" column="0">
+                       <widget class="QComboBox" name="filtersOptions">
+                        <item>
+                         <property name="text">
+                          <string>Average</string>
+                         </property>
+                        </item>
+                        <item>
+                         <property name="text">
+                          <string>Guassian</string>
+                         </property>
+                        </item>
+                        <item>
+                         <property name="text">
+                          <string>Median</string>
+                         </property>
+                        </item>
+                       </widget>
+                      </item>
                       <item row="0" column="0">
-                       <layout class="QVBoxLayout" name="verticalLayout_2">
-                        <item>
-                         <widget class="QLabel" name="label_2">
-                          <property name="maximumSize">
-                           <size>
-                            <width>16777215</width>
-                            <height>25</height>
-                           </size>
-                          </property>
-                          <property name="font">
-                           <font>
-                            <pointsize>12</pointsize>
-                           </font>
-                          </property>
-                          <property name="text">
-                           <string>Filtered Image</string>
-                          </property>
-                          <property name="alignment">
-                           <set>Qt::AlignCenter</set>
-                          </property>
-                         </widget>
-                        </item>
-                        <item>
-                         <widget class="ImageView" name="filteredImage" native="true"/>
-                        </item>
-                        <item>
-                         <widget class="QComboBox" name="filtersOptions">
-                          <item>
-                           <property name="text">
-                            <string>Average</string>
-                           </property>
-                          </item>
-                          <item>
-                           <property name="text">
-                            <string>Guassian</string>
-                           </property>
-                          </item>
-                          <item>
-                           <property name="text">
-                            <string>Median</string>
-                           </property>
-                          </item>
-                         </widget>
-                        </item>
-                       </layout>
+                       <widget class="QLabel" name="label_2">
+                        <property name="maximumSize">
+                         <size>
+                          <width>16777215</width>
+                          <height>25</height>
+                         </size>
+                        </property>
+                        <property name="font">
+                         <font>
+                          <pointsize>12</pointsize>
+                         </font>
+                        </property>
+                        <property name="text">
+                         <string>Filtered Image</string>
+                        </property>
+                        <property name="alignment">
+                         <set>Qt::AlignCenter</set>
+                        </property>
+                       </widget>
                       </item>
                      </layout>
                     </widget>
