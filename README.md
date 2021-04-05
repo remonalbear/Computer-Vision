@@ -17,7 +17,15 @@
 
 ## Graphical User Interface - GUI
 
-Your Description goes here...
+
+We display all the requirments in one window 
+using the GUI you can change some parameters like:
+
+    1. type of the filter
+    2. noise value
+    3. threshold 
+
+![GUI](Screenshots/gui.JPG)
 
 ---
 
@@ -25,8 +33,18 @@ Your Description goes here...
 
 ## Add additive noise to the image
 
-Your Description goes here...
+We add three different type of noise :
+* Uniform
+* Guassian
+* Salt & Pepper
 
+You can change between them using combo box and change the amount of noise using slider
+### Uniform
+![Uniform Noise](Screenshots/uniform.png)
+### Guassian
+![Gaussian Noise](Screenshots/guassian.png)
+### Salt & Pepper
+![Salt & Pepper Noise](Screenshots/salt_pepper.png)
 ---
 
 
