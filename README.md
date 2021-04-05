@@ -56,7 +56,7 @@ In this part we've implemented a function called "df" that takes an image data a
 
 Using that values to draw a "BarGraphItem" on pyqtgraph we got the following output...
 
-![Histogram of Image](Screenshots/histogram.png)
+![Histogram of Image](Screenshots/histogram_img.png)
 
 ---
 
