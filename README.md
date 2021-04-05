@@ -64,7 +64,11 @@ Using that values to draw a "BarGraphItem" on pyqtgraph we got the following out
 
 ## Equalize the image
 
-Your Description goes here...
+Using the previous histogram to generate a histogram equalization function by looping over the whole image array and equalize the output of the process we got the following image...
+
+![Equalization of Image](Screenshots/eq_img.png)
+
+You can see the difference in histograms, now it's values distributed over larger range of data.
 
 ---
 
@@ -72,7 +76,15 @@ Your Description goes here...
 
 ## Normalize the image
 
-Your Description goes here...
+Normalization process doesn't depend on histogram, as we know.
+
+By calculating the mean and standard deviation for image data array and using the following equation:
+
+`New Value = (Original Value - mean) / std^2`
+
+We got the following image...
+
+![Normalization of Image](Screenshots/norm_img.png)
 
 ---
 
