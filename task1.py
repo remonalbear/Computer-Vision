@@ -1,4 +1,5 @@
 # from UI import * 
+from numpy.core.fromnumeric import shape
 import pyqtgraph as pg
 from PyQt5 import QtCore, QtGui,QtWidgets
 from cv2 import cv2 as cv
@@ -18,7 +19,8 @@ class GUI(Ui_MainWindow):
         self.images=[self.filteredImage,self.noiseImage,self.edgeDetectionImage,
                     self.freqeuncyFilteredImage,self.equalizedImage,self.normalizedImage,
                     self.redChannel,self.greenChannel,self.blueChannel,
-                    self.imageOne,self.imageTwo,self.mixedImage,self.grayScaleImage]   
+                    self.imageOne,self.imageTwo,self.mixedImage,self.grayScaleImage,self.globalThesholdImage,
+                    self.localThresholdImage]   
         self.smoothingFilters = [np.array([(1,1,1),(1,1,1),(1,1,1)]) * (1/9),
                         np.array([(1,2,1),(2,4,2),(1,2,1)]) * (1/16),
                         np.array([(0,0,0),(0,0,0),(0,0,0)]) ]
@@ -31,6 +33,9 @@ class GUI(Ui_MainWindow):
             self.images[i].ui.roiPlot.hide()
             self.images[i].ui.roiBtn.hide()
             self.images[i].ui.menuBtn.hide()
+            self.images[i].view.setContentsMargins(0,0,0,0)
+            self.images[i].view.setAspectLocked(False)
+            self.images[i].view.setRange(xRange=[0,100],yRange=[0,100], padding=0)
             
         #noise slide configrations
         self.noiseSlider.setValue(20)
@@ -38,12 +43,35 @@ class GUI(Ui_MainWindow):
         self.noiseSlider.setMinimum(0) 
         self.noiseSlider.valueChanged.connect(self.noiseSliderChange)
         self.noiseSliderValue=20
+        #threshold sliders
+        self.localThreshValue=20
+        self.globalThreshValue=125
+        self.localThreshSlider.setMaximum(50)
+        self.localThreshSlider.setMinimum(0)
+        self.localThreshSlider.setSingleStep(2)
+        self.localThreshSlider.setValue(self.localThreshValue)
+        self.localThreshSlider.valueChanged.connect(self.localThreshSliderChange)
+        self.globalThreshSlider.setMaximum(255)
+        self.globalThreshSlider.setMinimum(0)
+        self.globalThreshSlider.setSingleStep(2)
+        self.globalThreshSlider.setValue(self.globalThreshValue)
+        self.globalThreshSlider.valueChanged.connect(self.globalThreshSliderChange)
         #retrieve the original image data
         self.originalImageData=cv.imread('test.jpg')
         #display the grayscale image
         self.grayScaleImageData=cv.cvtColor(self.originalImageData, cv.COLOR_BGR2GRAY)
-        self.grayScaleImage.setImage(self.grayScaleImageData.T)
+        self.grayScaleImage.setImage(self.gry_conv(self.originalImageData).T,scale=[2,2])
         self.grayScaleImage.show()
+        #test RGB
+        self.redChannel.setImage(self.originalImageData[:,:,2])
+        self.redChannel.setColorMap(pg.ColorMap([0.0,1.0],[(0,0,0),(255,0,0)]))
+        self.redChannel.ui.histogram.show()
+        self.greenChannel.setImage(self.originalImageData[:,:,1])
+        self.greenChannel.setColorMap(pg.ColorMap([0.0,1.0],[(0,0,0),(0,255,0)]))
+        self.greenChannel.ui.histogram.show()
+        self.blueChannel.setImage(self.originalImageData[:,:,0])
+        self.blueChannel.setColorMap(pg.ColorMap([0.0,1.0],[(0,0,0),(0,0,255)]))
+        self.blueChannel.ui.histogram.show()
         #link events with functions 
         self.noiseOptions.currentTextChanged.connect(self.applyNoise)
         self.applyNoise("Uniform")
@@ -52,6 +80,30 @@ class GUI(Ui_MainWindow):
         self.filtersOptions.currentIndexChanged.connect(self.avgFilter)
         self.edgeDetectionOptions.currentIndexChanged.connect(self.edgFilters)
         self.frequancyFiltersOptions.currentIndexChanged.connect(self.freqFilters)
+        #equalization
+        eq = self.equalize_image(self.grayScaleImageData)
+        self.equalizedImage.ui.histogram.show()
+        self.equalizedImage.setImage(eq.T) # P.S. PlotItem type is: ImageView
+        ## This part for Histogram Graph ###
+        x = np.linspace(0, 255, num=256)
+        y = self.df(self.grayScaleImageData)
+        bg = pg.BarGraphItem(x=x, height=y, width=1, brush='r')
+        self.originalHistogram.addItem(bg) # P.S. PlotItem type is: PlotWidget
+        #normalize
+        nr = self.normalize_image(self.grayScaleImageData)
+        self.normalizedImage.ui.histogram.show()
+        self.normalizedImage.setImage(nr.T) # P.S. PlotItem type is: ImageView
+        #display filters
+        self.avgFilter(0)
+        self.edgFilters(0)
+        self.freqFilters(0)
+        #display hybrid image
+        self.hybrid_img()
+        #threshold display
+        global_data=self.global_threshold(self.grayScaleImageData,self.globalThreshValue)
+        self.globalThesholdImage.setImage(global_data.T)
+        local_data=self.local_threshold(self.grayScaleImageData,5,self.localThreshValue)
+        self.localThresholdImage.setImage(local_data.T)
     #add noise functions
     #rerender when the slider changed
     def noiseSliderChange(self):
@@ -146,21 +198,32 @@ class GUI(Ui_MainWindow):
                 result = (verticalScore**2 + horizontalScore**2)**.5
                 pic[i,j] = result*3
         self.edgeDetectionImage.setImage(pic.T)
-    def freqFilters(self,value):
+    def freqFilters(self,value,image=[[None]]):
         '''
         get the filter index choosen from the Frequency Filters ComboBox and apply
         that filter on the noiseImageData 
         '''
-        original = np.fft.fft2(self.noiseImageData)
+        if image[0][0]:
+            original = np.fft.fft2(image)
+            shape=image.shape        
+        else : 
+            original = np.fft.fft2(self.noiseImageData)
+            shape=self.noiseImageData.shape
+
         center = np.fft.fftshift(original)
         if(value == 0):
-            resault = center * self.idealFilterLP(50,self.noiseImageData.shape)
+            resault = center * self.idealFilterLP(50,shape)
         else:
-            resault = center * self.idealFilterHP(50,self.noiseImageData.shape)
-        LowPass = np.fft.ifftshift(resault)
-        inverse_LowPass = np.fft.ifft2(LowPass)
-        self.freqeuncyFilteredImage.setImage(np.abs(inverse_LowPass).T)
+            resault = center * self.idealFilterHP(50,shape)
+        final = np.fft.ifftshift(resault)
+        inverse_final = np.fft.ifft2(final)
+        if not image[0][0]:
+            self.freqeuncyFilteredImage.setImage(np.abs(inverse_final).T)
+        else : 
+            return np.abs(inverse_final).T
 
+        
+    
     def distance(self,point1,point2):
         return sqrt((point1[0]-point2[0])**2 + (point1[1]-point2[1])**2)
 
@@ -184,90 +247,111 @@ class GUI(Ui_MainWindow):
         return base
 ###################################################################################################
 
-        def df(img):
-            values = [0]*256
-            for i in range(img.shape[0]):
-                for j in range(img.shape[1]):
-                    values[img[i,j]]+=1
-            return values
+    def df(self,img):
+        values = [0]*256
+        for i in range(img.shape[0]):
+            for j in range(img.shape[1]):
+                values[img[i,j]]+=1
+        return values
 
-        ## This part for Histogram Graph ###
-        x = np.linspace(0, 255, num=256)
-        y = df(self.grayScaleImageData)
-        bg = pg.BarGraphItem(x=x, height=y, width=1, brush='r')
-        self.originalHistogram.addItem(bg) # P.S. PlotItem type is: PlotWidget
+
 
 ###################################################################################################
 
-        ## This part for Equalized Image ###
-        def cdf(hist):
-            cdf = [0] * len(hist)
-            cdf[0] = hist[0]
-            for i in range(1, len(hist)):
-                cdf[i]= cdf[i-1]+hist[i]
-            cdf = [ele*255/cdf[-1] for ele in cdf]
-            return cdf
-        def equalize_image(image):
-            my_cdf = cdf(df(self.grayScaleImageData))
-            image_equalized = np.interp(image, range(0,256), my_cdf)
-            return image_equalized
-        eq = equalize_image(self.grayScaleImageData)
-        self.equalizedImage.ui.histogram.show()
-        self.equalizedImage.setImage(eq.T) # P.S. PlotItem type is: ImageView
+    ## This part for Equalized Image ###
+    def cdf(self,hist):
+        cdf = [0] * len(hist)
+        cdf[0] = hist[0]
+        for i in range(1, len(hist)):
+            cdf[i]= cdf[i-1]+hist[i]
+        cdf = [ele*255/cdf[-1] for ele in cdf]
+        return cdf
+
+    def equalize_image(self,image):
+        my_cdf = self.cdf(self.df(self.grayScaleImageData))
+        image_equalized = np.interp(image, range(0,256), my_cdf)
+        return image_equalized
+
 
 ###################################################################################################
 
-        ## This part for Normalized Image ###
-        def normalize_image(img):
-            minValue = 0
-            maxValue = max(img.flatten())
-            values = np.zeros(img.shape)
-            for i in range(img.shape[0]):
-                for j in range(img.shape[1]):
-                    values[i,j] = (img[i,j] - minValue)/(maxValue - minValue) * 255.0
-            return values
-        nr = normalize_image(self.grayScaleImageData)
-        self.normalizedImage.ui.histogram.show()
-        self.normalizedImage.setImage(nr.T) # P.S. PlotItem type is: ImageView
+    ## This part for Normalized Image ###
+    def normalize_image(self,img):
+        minValue = min(img.flatten())
+        maxValue = max(img.flatten())
+        mean=np.mean(img.flatten())
+        std=np.std(img.flatten())
+        values = np.zeros(img.shape)
+        for i in range(img.shape[0]):
+            for j in range(img.shape[1]):
+                # values[i,j] = (img[i,j] - minValue)/(maxValue - minValue) * 255.0
+                values[i,j]=((img[i,j]-mean)/std**2)*1.0
+        return values
+
 ###################################################################################################
-
-        ## This part for Global Thresholding ###
-        def global_threshold(nor_image, threshold):
-            image = np.array(nor_image)
-            new_img = np.copy(image)
-            try:
-                for channel in range(image.shape[2]):
-                    new_img[:, :, channel] = list(map(lambda row: list((255 if ele>threshold else 0) for ele in row) , image[:, :, channel]))
-            except:
-                new_img[:, :] = list(map(lambda row: list((255 if ele>threshold else 0) for ele in row) , image[:, :]))
-            return Image.fromarray(new_img)
-################################################################################################### 
-
-        ## This part for Local Thresholding ###
-        def local_threshold(nor_image, size, const):
-            image = np.array(nor_image)
-            new_img = np.copy(image)
+    def globalThreshSliderChange(self):
+        value=self.globalThreshSlider.value()
+        local_data=self.global_threshold(self.grayScaleImageData,value)
+        self.globalThesholdImage.setImage(local_data.T)
+    ## This part for Global Thresholding ###
+    def global_threshold(self,nor_image, threshold):
+        image = np.array(nor_image)
+        new_img = np.copy(image)
+        try:
             for channel in range(image.shape[2]):
-                for row in range(0, image.shape[0], size):
-                    for col in range(0, image.shape[1], size):
-                        mask = image[row:row+size,col:col+size, channel]
-                        threshold = np.mean(mask)-const
-                        new_img[row:row+size,col:col+size, channel] = global_threshold(mask, threshold)
-            return Image.fromarray(new_img)
+                new_img[:, :, channel] = list(map(lambda row: list((255 if ele>threshold else 0) for ele in row) , image[:, :, channel]))
+        except:
+            new_img[:, :] = list(map(lambda row: list((255 if ele>threshold else 0) for ele in row) , image[:, :]))
+        return new_img
+################################################################################################### 
+   
+    def localThreshSliderChange(self):
+        value=self.localThreshSlider.value()
+        local_data=self.local_threshold(self.grayScaleImageData,5,value)
+        self.localThresholdImage.setImage(local_data.T)
+    ## This part for Local Thresholding ###
+    def local_threshold(self,nor_image, size, const):
+        image = np.array(nor_image)
+        new_img = np.copy(image)
+        for row in range(0, image.shape[0], size):
+            for col in range(0, image.shape[1], size):
+                mask = image[row:row+size,col:col+size]
+                threshold = np.mean(mask)-const
+                new_img[row:row+size,col:col+size] = self.global_threshold(mask, threshold)
+        return new_img
 ################################################################################################### 
 
-        ## This part for RGB 2 Gray_scale conversion ###
-        def gry_conv(image):
-            gry_img = np.dot(image[..., :3], [0.299, 0.587, 0.114])
-            return gry_img
+    ## This part for RGB 2 Gray_scale conversion ###
+    def gry_conv(self,image):
+        gry_img = np.dot(image[..., :3], [0.299, 0.587, 0.114])
+        return gry_img
 ################################################################################################### 
 
-        ## This part for Hybrid Images ###
-        # def hybrid_img(img1, img2):
-        #     # convert image 1
-        #     # convert image 2
-        #     # hybrid = low_img1 + high_img2
-        #     # return hybrid
+        # This part for Hybrid Images ###
+    def hybrid_img(self):
+        img1=cv.imread('image1.jpg',0)
+        img2=cv.imread('image2.jpg',0)
+        img1=cv.resize(img1,(255,255))
+        img2=cv.resize(img2,(255,255))
+        img1 = np.fft.fft2(img1)
+        img2 = np.fft.fft2(img2)
+        center1 = np.fft.fftshift(img1)
+        center2 = np.fft.fftshift(img2)
+        shape1=img1.shape
+        shape2=img2.shape
+        lowPass= center1 * self.idealFilterLP(25,shape1)
+        highPass = center2 * self.idealFilterHP(5,shape2)
+        finalLowPass = np.fft.ifftshift(lowPass)
+        inverse_finalLowPass = np.fft.ifft2(finalLowPass)
+        finalHighPass = np.fft.ifftshift(highPass)
+        inverse_finalHighPass = np.fft.ifft2(finalHighPass)
+        img1=np.abs(inverse_finalLowPass).T
+        img2=np.abs(inverse_finalHighPass).T
+        self.imageOne.setImage(img1)
+        self.imageTwo.setImage(img2)
+        hybrid =img1+img2
+        self.mixedImage.setImage(hybrid)
+    
 ######################################################################################################
 
 
