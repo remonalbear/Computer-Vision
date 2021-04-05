@@ -52,7 +52,11 @@ Your Description goes here...
 
 ## Draw histogram and distribution curve
 
-Your Description goes here...
+In this part we've implemented a function called "df" that takes an image data array and return the histogram values for each intensity value.
+
+Using that values to draw a "BarGraphItem" on pyqtgraph we got the following output...
+
+![Histogram of Image]("Screenshots/histogram.png")
 
 ---
 
