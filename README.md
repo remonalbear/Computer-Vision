@@ -33,9 +33,17 @@ Your Description goes here...
 # Part 2
 
 ## Filter the noisy image using the following low pass filters:
-## - Average, Gaussian and median filters
-
-Your Description goes here...
+in this section we use function "avgFilter" to manipulate the noisy image with a specific filter we choose and the result is ... 
+## - original image
+![original of Image](Screenshots/org.png)
+## - Average filter
+![Average filter](Screenshots/avg.png)
+## - Gaussian filter
+![Gaussian filter](Screenshots/gas.png)
+## - Salt & papper pic
+![Salt & papper pic](Screenshots/salt&papper.png)
+## - median filters
+![median filters](Screenshots/medain.png)
 
 ---
 
@@ -43,8 +51,15 @@ Your Description goes here...
 
 ## Detect edges in the image using the following masks:
 ## - Sobel , Roberts , Prewitt and Canny edge detectors
-
-Your Description goes here...
+in this section we use function "edgFilters" to manipulate the image with a specific filter we choose and the result is ... 
+## - original pic
+![original pic](Screenshots/org.png)
+## - Sobel filter
+![Sobel filter](Screenshots/sobal.png)
+## - Roberts pic
+![Roberts pic](Screenshots/roberts.png)
+## - Prewitt filters
+![Prewitt filters](Screenshots/prewitt.png)
 
 ---
 
@@ -95,8 +110,13 @@ Your Description goes here...
 # Part 9
 
 ## Frequency domain filters (high pass and low pass)
-
-Your Description goes here...
+in this section we use function "freqFilters" to manipulate the image with a LPS or HPS in the frequency domain and get the pic back and the result is ... 
+## - original pic
+![original pic](Screenshots/org.png)
+## - low pass filter
+![Sobel filter](Screenshots/LPF.png)
+## - Roberts pic
+![Roberts pic](Screenshots/HPF.png)
 
 ---
 
