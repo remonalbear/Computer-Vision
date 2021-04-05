@@ -2,14 +2,32 @@
 
 ---
 
-- Team Work:
+# Team Work:
 
-| Name | Related Work |
+| Name | Section | Bench |
+| ----------- | ----------- | ----------- |
+| Ahmed Adel | 1 | 6 |
+| Remon Albear | 1 | 33 |
+| Abdulla Zahran | 2 | 4 |
+| Mohammed Almotasem | 2 | 19 |
+
+---
+
+# Table of Content
+
+| Requiered Part | Title |
 | ----------- | ----------- |
-| Remon Albear | [GUI](#part-0) + [#Part 1](#part-1) |
-| Ahmed Adel | [#Part 2](#part-2) + [#Part 3](#part-3) + [#Part 9](#part-9) |
-| Abdulla Zahran | [#Part 4](#part-4) + [#Part 5](#part-5) + [#Part 6](#part-6) |
-| Mohammed Almotasem | [#Part 7](#part-7) + [#Part 8](#part-8) + [#Part 10](#part-10) |
+| [GUI](#part-0) | Graphical User Interface - GUI |
+| [#Part 1](#part-1) | Add additive noise to the image |
+| [#Part 2](#part-2) | Filter the noisy image |
+| [#Part 3](#part-3) | Detect edges in the image |
+| [#Part 4](#part-4) | Draw histogram and distribution curve |
+| [#Part 5](#part-5) | Equalize the image |
+| [#Part 6](#part-6) | Normalize the image |
+| [#Part 7](#part-7) | Local and global thresholding |
+| [#Part 8](#part-8) | Transformation from color image to gray scale |
+| [#Part 9](#part-9) | Frequency domain filters |
+| [#Part 10](#part-10) | Hybrid images |
 
 ---
 
@@ -17,7 +35,15 @@
 
 ## Graphical User Interface - GUI
 
-Your Description goes here...
+
+We display all the requirments in one window 
+using the GUI you can change some parameters like:
+
+    1. type of the filter
+    2. noise value
+    3. threshold 
+
+![GUI](Screenshots/gui.JPG)
 
 ---
 
@@ -25,8 +51,18 @@ Your Description goes here...
 
 ## Add additive noise to the image
 
-Your Description goes here...
+We add three different type of noise :
+* Uniform
+* Guassian
+* Salt & Pepper
 
+You can change between them using combo box and change the amount of noise using slider
+### Uniform
+![Uniform Noise](Screenshots/uniform.png)
+### Guassian
+![Gaussian Noise](Screenshots/guassian.png)
+### Salt & Pepper
+![Salt & Pepper Noise](Screenshots/salt_pepper.png)
 ---
 
 
@@ -79,7 +115,11 @@ Using that values to draw a "BarGraphItem" on pyqtgraph we got the following out
 
 ## Equalize the image
 
-Your Description goes here...
+Using the previous histogram to generate a histogram equalization function by looping over the whole image array and equalize the output of the process we got the following image...
+
+![Equalization of Image](Screenshots/eq_img.png)
+
+You can see the difference in histograms, now it's values distributed over larger range of data.
 
 ---
 
@@ -87,7 +127,15 @@ Your Description goes here...
 
 ## Normalize the image
 
-Your Description goes here...
+Normalization process doesn't depend on histogram, as we know.
+
+By calculating the mean and standard deviation for image data array and using the following equation:
+
+`New Value = (Original Value - mean) / std^2`
+
+We got the following image...
+
+![Normalization of Image](Screenshots/norm_img.png)
 
 ---
 
@@ -95,7 +143,10 @@ Your Description goes here...
 
 ## Local and global thresholding
 
-Your Description goes here...
+Global Thresholding: We implemented the global function where it iterates over all the image's pixels and assign it to a new value where it becomes 255 or 0 according to whether or not it's greater than a given threshold provided by the user.
+![Global_thresh_img](Screenshots/Global.png)
+Local Thresholding: We implemented the local function to work as it divides the image to many smaller windows where their size is selected by the user, the mean is calculated to the selected window and then is used as the threshold value to this window by applying the same technique used in the global function, the user have the option to choose if a constant is needed to be subtracted from the mean before applying it to the window. 
+![Local_thresh_img](Screenshots/Local.png)
 
 ---
 
@@ -103,7 +154,10 @@ Your Description goes here...
 
 ## Transformation from color image to gray scale image and plot of R, G, and B histograms with its distribution function (cumulative curve that you use it for mapping and histogram equalization)
 
-Your Description goes here...
+The  transformation of a colored image to a gray scale image was done by selecting each corresponding pixel in the 3 channels(ie. RGB) and multiplying these value by certain constant values respectively and add them together. the result is then equal to the pixel value needed to acheive the suitabale grey color for that pixel.
+![Gray_scale_img](Screenshots/RGB2Gray.png)
+Where its histogram is displayed as follows
+![Gray_histogram](Screenshots/Histogram_gray.png)
 
 ---
 
@@ -124,6 +178,7 @@ in this section we use function "freqFilters" to manipulate the image with a LPS
 
 ## Hybrid images
 
-Your Description goes here...
+After implementing the high pass and the low pass filters required in part 9, hybrid images could be acheiving by simply applying the high filter on an image and the low pass on another and adding the results of each together to reach the merging between the two images needed.
+![Hybrid_imgs](Screenshots/Hyb_img.png)
 
 ---
