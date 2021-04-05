@@ -1,7 +1,7 @@
 from cv2 import cv2
 import numpy as np
 
-pic = cv2.imread('Flower.jpg')
+pic = cv2.imread('./Dola/test.jpg')
 pic = cv2.resize(pic, (800,800)) #resizing the image 
 
 # filter = np.array([(1,1,1,1,1),(1,1,1,1,1),(1,1,1,1,1),(1,1,1,1,1),(1,1,1,1,1)]) * (1/25) # filter 5*5
