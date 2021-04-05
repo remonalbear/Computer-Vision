@@ -2,6 +2,7 @@
 import pyqtgraph as pg
 from PyQt5 import QtCore, QtGui,QtWidgets
 from cv2 import cv2 as cv
+from math import sqrt
 import numpy as np
 import random
 from UI import Ui_MainWindow
@@ -16,7 +17,12 @@ class GUI(Ui_MainWindow):
                     self.freqeuncyFilteredImage,self.equalizedImage,self.normalizedImage,
                     self.redChannel,self.greenChannel,self.blueChannel,
                     self.imageOne,self.imageTwo,self.mixedImage,self.grayScaleImage]   
-
+        self.smoothingFilters = [np.array([(1,1,1),(1,1,1),(1,1,1)]) * (1/9),
+                        np.array([(1,2,1),(2,4,2),(1,2,1)]) * (1/16),
+                        np.array([(0,0,0),(0,0,0),(0,0,0)]) ]
+        self.edgeDetectionFilters = [np.array([[-1, 0, 1],[-2, 0, 2],[-1, 0, 1]]),
+                                    np.array([[1, 0],[ 0, -1]]),
+                                    np.array([[-1, 0, 1],[-1, 0, 1],[-1, 0, 1]]) ]
         #removing unwanted options from the image display widget
         for i in range(len(self.images)):
             self.images[i].ui.histogram.hide()
@@ -39,6 +45,11 @@ class GUI(Ui_MainWindow):
         #link events with functions 
         self.noiseOptions.currentTextChanged.connect(self.applyNoise)
         self.applyNoise("Uniform")
+
+        # filters
+        self.filtersOptions.currentIndexChanged.connect(self.avgFilter)
+        self.edgeDetectionOptions.currentIndexChanged.connect(self.edgFilters)
+        self.frequancyFiltersOptions.currentIndexChanged.connect(self.freqFilters)
     #add noise functions
     #rerender when the slider changed
     def noiseSliderChange(self):
@@ -67,7 +78,108 @@ class GUI(Ui_MainWindow):
         self.noiseImage.setImage(self.noiseImageData.T)
         self.noiseImage.show()
 
-        
+###################################################################################################
+    # avg filters
+    def avgFilter(self,value):
+        '''
+        get the filter index choosen from the Filtered Image ComboBox and apply
+        that filter on the noiseImageData 
+        '''
+        avgPic = self.noiseImageData.copy()
+        picShape = self.noiseImageData.shape
+        filterShape = self.smoothingFilters[value].shape
+
+        inputPicRow = picShape[0] + filterShape[0] - 1
+        inputPicColumn = picShape[1] + filterShape[1] - 1
+        zeros = np.zeros((inputPicRow,inputPicColumn))
+
+        for i in range(picShape[0]):
+            for j in range(picShape[1]):
+                zeros[i+np.int((filterShape[0]-1)/2),j+np.int((filterShape[1]-1)/2)] = avgPic[i,j]
+        if(value == 2):
+            for i in range(picShape[0]):
+                for j in range(picShape[1]):
+                    targetWindow = zeros[i:i+filterShape[0],j:j+filterShape[1]]
+                    result = np.median(targetWindow)
+                    avgPic[i,j] = result
+        else:
+            for i in range(picShape[0]):
+                for j in range(picShape[1]):
+                    targetWindow = zeros[i:i+filterShape[0],j:j+filterShape[1]]
+                    result = np.sum(targetWindow*self.smoothingFilters[value])
+                    avgPic[i,j] = result
+        self.filteredImage.setImage(avgPic.T)
+    
+
+    def edgFilters(self,value):
+        '''
+        get the filter index choosen from the Image Edges ComboBox and apply
+        that filter on the noiseImageData 
+        '''
+        pic = self.noiseImageData.copy()
+        maskVertical =  self.edgeDetectionFilters[value]
+        maskHorizontal = maskVertical.T
+        picShape = self.noiseImageData.shape
+        filterShape = maskVertical.shape
+
+
+        inputPicRow = picShape[0] + filterShape[0] - 1
+        inputPicColumn = picShape[1] + filterShape[1] - 1
+        zeros = np.zeros((inputPicRow,inputPicColumn))
+
+        for i in range(picShape[0]):
+            for j in range(picShape[1]):
+                zeros[i+np.int((filterShape[0]-1)/2),j+np.int((filterShape[1]-1)/2)] = pic[i,j]
+
+        for i in range(picShape[0]):
+            for j in range(picShape[1]):
+                targetWindow = zeros[i:i+filterShape[0],j:j+filterShape[1]]
+
+                verticalResult = (targetWindow*maskVertical)
+                verticalScore = verticalResult.sum() / 4
+
+                horizontalResult = (targetWindow*maskHorizontal)
+                horizontalScore = horizontalResult.sum() / 4
+
+                result = (verticalScore**2 + horizontalScore**2)**.5
+                pic[i,j] = result*3
+        self.edgeDetectionImage.setImage(pic.T)
+    def freqFilters(self,value):
+        '''
+        get the filter index choosen from the Frequency Filters ComboBox and apply
+        that filter on the noiseImageData 
+        '''
+        original = np.fft.fft2(self.noiseImageData)
+        center = np.fft.fftshift(original)
+        if(value == 0):
+            resault = center * self.idealFilterLP(50,self.noiseImageData.shape)
+        else:
+            resault = center * self.idealFilterHP(50,self.noiseImageData.shape)
+        LowPass = np.fft.ifftshift(resault)
+        inverse_LowPass = np.fft.ifft2(LowPass)
+        self.freqeuncyFilteredImage.setImage(np.abs(inverse_LowPass).T)
+
+    def distance(self,point1,point2):
+        return sqrt((point1[0]-point2[0])**2 + (point1[1]-point2[1])**2)
+
+    def idealFilterHP(self,D0,imgShape):
+        base = np.ones(imgShape[:2])
+        rows, cols = imgShape[:2]
+        center = (rows/2,cols/2)
+        for x in range(cols):
+            for y in range(rows):
+                if self.distance((y,x),center) < D0:
+                    base[y,x] = 0
+        return base
+    def idealFilterLP(self,D0,imgShape):
+        base = np.zeros(imgShape[:2])
+        rows, cols = imgShape[:2]
+        center = (rows/2,cols/2)
+        for x in range(cols):
+            for y in range(rows):
+                if self.distance((y,x),center) < D0:
+                    base[y,x] = 1
+        return base
 ###################################################################################################
 
         def df(img):

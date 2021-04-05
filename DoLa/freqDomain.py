@@ -4,13 +4,8 @@ import numpy as np
 pic = cv2.imread('Flower.jpg')
 pic = cv2.resize(pic, (800,800)) #resizing the image 
 
-# filter = np.array([(1,1,1,1,1),(1,1,1,1,1),(1,1,1,1,1),(1,1,1,1,1),(1,1,1,1,1)]) * (1/25) # filter 5*5
-# filter = np.array([(1,1,1),(1,1,1),(1,1,1)]) * (1/9) # filter 3*3
-# filter = np.array([(0,0,0),(0,0,0),(0,0,0)]) # for median filter 3*3
-filter = np.array([(1,2,1),(2,4,2),(1,2,1)]) * (1/16) #  Gaussian filter 3*3
 
 picShape = pic.shape
-filterShape = filter.shape
 
 picGray = cv2.cvtColor(pic, cv2.COLOR_BGR2GRAY)
 cv2.imshow('original',picGray)
