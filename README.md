@@ -15,7 +15,7 @@
 
 # Part 0
 
-## [Write a title here]
+## Graphical User Interface - GUI
 
 Your Description goes here...
 
@@ -23,7 +23,7 @@ Your Description goes here...
 
 # Part 1
 
-## [Write a title here]
+## Add additive noise to the image
 
 Your Description goes here...
 
@@ -32,7 +32,8 @@ Your Description goes here...
 
 # Part 2
 
-## [Write a title here]
+## Filter the noisy image using the following low pass filters:
+## - Average, Gaussian and median filters
 
 Your Description goes here...
 
@@ -40,7 +41,8 @@ Your Description goes here...
 
 # Part 3
 
-## [Write a title here]
+## Detect edges in the image using the following masks:
+## - Sobel , Roberts , Prewitt and Canny edge detectors
 
 Your Description goes here...
 
@@ -48,7 +50,7 @@ Your Description goes here...
 
 # Part 4
 
-## [Write a title here]
+## Draw histogram and distribution curve
 
 Your Description goes here...
 
@@ -56,7 +58,7 @@ Your Description goes here...
 
 # Part 5
 
-## [Write a title here]
+## Equalize the image
 
 Your Description goes here...
 
@@ -64,7 +66,7 @@ Your Description goes here...
 
 # Part 6
 
-## [Write a title here]
+## Normalize the image
 
 Your Description goes here...
 
@@ -72,7 +74,7 @@ Your Description goes here...
 
 # Part 7
 
-## [Write a title here]
+## Local and global thresholding
 
 Your Description goes here...
 
@@ -80,7 +82,7 @@ Your Description goes here...
 
 # Part 8
 
-## [Write a title here]
+## Transformation from color image to gray scale image and plot of R, G, and B histograms with its distribution function (cumulative curve that you use it for mapping and histogram equalization)
 
 Your Description goes here...
 
@@ -88,7 +90,7 @@ Your Description goes here...
 
 # Part 9
 
-## [Write a title here]
+## Frequency domain filters (high pass and low pass)
 
 Your Description goes here...
 
@@ -96,7 +98,7 @@ Your Description goes here...
 
 # Part 10
 
-## [Write a title here]
+## Hybrid images
 
 Your Description goes here...
 
