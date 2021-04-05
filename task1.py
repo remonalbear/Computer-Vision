@@ -151,11 +151,11 @@ class GUI(Ui_MainWindow):
 ################################################################################################### 
 
         ## This part for Hybrid Images ###
-        def hybrid_img(img1, img2):
-            # convert image 1
-            # convert image 2
-            # hybrid = low_img1 + high_img2
-            # return hybrid
+        # def hybrid_img(img1, img2):
+        #     # convert image 1
+        #     # convert image 2
+        #     # hybrid = low_img1 + high_img2
+        #     # return hybrid
 ######################################################################################################
 
 
