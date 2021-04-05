@@ -128,7 +128,10 @@ We got the following image...
 
 ## Local and global thresholding
 
-Your Description goes here...
+Global Thresholding: We implemented the global function where it iterates over all the image's pixels and assign it to a new value where it becomes 255 or 0 according to whether or not it's greater than a given threshold provided by the user.
+![Global_thresh_img](Screenshots/Global.png)
+Local Thresholding: We implemented the local function to work as it divides the image to many smaller windows where their size is selected by the user, the mean is calculated to the selected window and then is used as the threshold value to this window by applying the same technique used in the global function, the user have the option to choose if a constant is needed to be subtracted from the mean before applying it to the window. 
+![Local_thresh_img](Screenshots/Local.png)
 
 ---
 
@@ -136,7 +139,10 @@ Your Description goes here...
 
 ## Transformation from color image to gray scale image and plot of R, G, and B histograms with its distribution function (cumulative curve that you use it for mapping and histogram equalization)
 
-Your Description goes here...
+The  transformation of a colored image to a gray scale image was done by selecting each corresponding pixel in the 3 channels(ie. RGB) and multiplying these value by certain constant values respectively and add them together. the result is then equal to the pixel value needed to acheive the suitabale grey color for that pixel.
+![Gray_scale_img](Screenshots/RGB2Gray.png)
+Where its histogram is displayed as follows
+![Gray_histogram](Screenshots/Histogram_gray.png)
 
 ---
 
@@ -152,6 +158,7 @@ Your Description goes here...
 
 ## Hybrid images
 
-Your Description goes here...
+After implementing the high pass and the low pass filters required in part 9, hybrid images could be acheiving by simply applying the high filter on an image and the low pass on another and adding the results of each together to reach the merging between the two images needed.
+![Hybrid_imgs](Screenshots/Hyb_img.png)
 
 ---
