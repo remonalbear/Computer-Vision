@@ -2,14 +2,32 @@
 
 ---
 
-- Team Work:
+# Team Work:
 
-| Name | Related Work |
+| Name | Section | Bench |
+| ----------- | ----------- | ----------- |
+| Ahmed Adel | 1 | 6 |
+| Remon Albear | 1 | 33 |
+| Abdulla Zahran | 2 | 4 |
+| Mohammed Almotasem | 2 | 19 |
+
+---
+
+# Table of Content
+
+| Requiered Part | Title |
 | ----------- | ----------- |
-| Remon Albear | [GUI](#part-0) + [#Part 1](#part-1) |
-| Ahmed Adel | [#Part 2](#part-2) + [#Part 3](#part-3) + [#Part 9](#part-9) |
-| Abdulla Zahran | [#Part 4](#part-4) + [#Part 5](#part-5) + [#Part 6](#part-6) |
-| Mohammed Almotasem | [#Part 7](#part-7) + [#Part 8](#part-8) + [#Part 10](#part-10) |
+| [GUI](#part-0) | Graphical User Interface - GUI |
+| [#Part 1](#part-1) | Add additive noise to the image |
+| [#Part 2](#part-2) | Filter the noisy image |
+| [#Part 3](#part-3) | Detect edges in the image |
+| [#Part 4](#part-4) | Draw histogram and distribution curve |
+| [#Part 5](#part-5) | Equalize the image |
+| [#Part 6](#part-6) | Normalize the image |
+| [#Part 7](#part-7) | Local and global thresholding |
+| [#Part 8](#part-8) | Transformation from color image to gray scale |
+| [#Part 9](#part-9) | Frequency domain filters |
+| [#Part 10](#part-10) | Hybrid images |
 
 ---
 
