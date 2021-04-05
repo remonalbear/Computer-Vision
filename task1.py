@@ -4,6 +4,8 @@ from PyQt5 import QtCore, QtGui,QtWidgets
 from cv2 import cv2 as cv
 from math import sqrt
 import numpy as np
+from PIL import Image
+import matplotlib as plt
 import random
 from UI import Ui_MainWindow
 # from collections import Counter # Replaced
@@ -227,9 +229,48 @@ class GUI(Ui_MainWindow):
         nr = normalize_image(self.grayScaleImageData)
         self.normalizedImage.ui.histogram.show()
         self.normalizedImage.setImage(nr.T) # P.S. PlotItem type is: ImageView
+###################################################################################################
 
+        ## This part for Global Thresholding ###
+        def global_threshold(nor_image, threshold):
+            image = np.array(nor_image)
+            new_img = np.copy(image)
+            try:
+                for channel in range(image.shape[2]):
+                    new_img[:, :, channel] = list(map(lambda row: list((255 if ele>threshold else 0) for ele in row) , image[:, :, channel]))
+            except:
+                new_img[:, :] = list(map(lambda row: list((255 if ele>threshold else 0) for ele in row) , image[:, :]))
+            return Image.fromarray(new_img)
 ################################################################################################### 
-            
+
+        ## This part for Local Thresholding ###
+        def local_threshold(nor_image, size, const):
+            image = np.array(nor_image)
+            new_img = np.copy(image)
+            for channel in range(image.shape[2]):
+                for row in range(0, image.shape[0], size):
+                    for col in range(0, image.shape[1], size):
+                        mask = image[row:row+size,col:col+size, channel]
+                        threshold = np.mean(mask)-const
+                        new_img[row:row+size,col:col+size, channel] = global_threshold(mask, threshold)
+            return Image.fromarray(new_img)
+################################################################################################### 
+
+        ## This part for RGB 2 Gray_scale conversion ###
+        def gry_conv(image):
+            gry_img = np.dot(image[..., :3], [0.299, 0.587, 0.114])
+            return gry_img
+################################################################################################### 
+
+        ## This part for Hybrid Images ###
+        def hybrid_img(img1, img2):
+            # convert image 1
+            # convert image 2
+            # hybrid = low_img1 + high_img2
+            # return hybrid
+######################################################################################################
+
+
 if __name__ == "__main__":
     import sys
     app = QtWidgets.QApplication(sys.argv)
