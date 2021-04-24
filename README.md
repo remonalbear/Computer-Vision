@@ -23,6 +23,11 @@
 | [#Part 4](#part-4) | Active contour|
 
 ---
+
+![GUI](ScreenShots/Screenshot_2021-04-24_172030.png)
+
+---
+
 # Part 1
 
 ## Canny Edge Detection

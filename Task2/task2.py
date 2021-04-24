@@ -11,6 +11,7 @@ import random
 from UI import Ui_MainWindow
 from lines_hough import hough_lines
 import snake as sn
+import canny
 # from collections import Counter # Replaced
 
 
@@ -89,6 +90,7 @@ class GUI(Ui_MainWindow):
         plt.pyplot.savefig('snake.jpg')
         outImg = cv.imread('./snake.jpg')
         self.activeContoursOutputImage.setImage(outImg)
+        cny_img_in = cv.imread('CannyInput.jpg')
         self.cannyInputImage.setImage(cny_img_in.T)
         cny_img_out = canny.canny_apply("CannyInput.jpg")
         # print(type(np.asarray(cny_img_out)))
