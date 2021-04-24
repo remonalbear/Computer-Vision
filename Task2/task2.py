@@ -89,6 +89,10 @@ class GUI(Ui_MainWindow):
         plt.pyplot.savefig('snake.jpg')
         outImg = cv.imread('./snake.jpg')
         self.activeContoursOutputImage.setImage(outImg)
+        self.cannyInputImage.setImage(cny_img_in.T)
+        cny_img_out = canny.canny_apply("CannyInput.jpg")
+        # print(type(np.asarray(cny_img_out)))
+        self.cannyOutputImage.setImage(np.asarray(cny_img_out).T)
 ######################################################################################################
 
 
