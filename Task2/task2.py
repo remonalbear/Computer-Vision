@@ -32,7 +32,6 @@ class GUI(Ui_MainWindow):
             self.images[i].view.setRange(xRange=[0,100],yRange=[0,100], padding=0)
 
         #retrieve the original image data
-        # hough_lines("linesInput.jpg")
 
         #   Active contour
         self.snakeContour()
