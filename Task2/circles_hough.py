@@ -2,7 +2,7 @@ from cv2 import cv2
 import numpy as np
 from collections import defaultdict
 
-def find_hough_circles(image, edge_image, r_min=15, r_max=200, delta_r=1, num_thetas=100, bin_threshold=.4, post_process = True):
+def find_hough_circles(image, edge_image, r_min=30 , r_max=200, delta_r=1, num_thetas=100, bin_threshold=.4, post_process = True):
   img_height, img_width = edge_image.shape[:2]
   
   dtheta = int(360 / num_thetas)
