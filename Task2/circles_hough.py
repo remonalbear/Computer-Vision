@@ -1,8 +1,8 @@
-import cv2
+from cv2 import cv2
 import numpy as np
 from collections import defaultdict
 
-def find_hough_circles(image, edge_image, r_min=15, r_max=200, delta_r=1, num_thetas=100, bin_threshold=.4, post_process = True):
+def find_hough_circles(image, edge_image, r_min=30 , r_max=200, delta_r=1, num_thetas=100, bin_threshold=.4, post_process = True):
   img_height, img_width = edge_image.shape[:2]
   
   dtheta = int(360 / num_thetas)
@@ -64,8 +64,9 @@ def find_hough_circles(image, edge_image, r_min=15, r_max=200, delta_r=1, num_th
   for x, y, r, v in out_circles:
     output_img = cv2.circle(output_img, (x,y), int(r), (0,255,0), 2)
   
-  cv2.imshow("out",output_img)
-  cv2.waitKey(0)
+  cv2.imwrite("CirclesOutput.jpg", output_img)
+  # cv2.imshow("out",output_img)
+  # cv2.waitKey(0)
 def circles_hough(path):
     image = cv2.imread(path)
     edge_image = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
@@ -75,4 +76,4 @@ def circles_hough(path):
     find_hough_circles(image, edge_image)
 
 if __name__ == "__main__":
-    circles_hough("circles.jpg")
+    circles_hough("CirclesInput.jpg")

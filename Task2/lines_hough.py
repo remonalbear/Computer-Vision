@@ -66,7 +66,7 @@ def line_detection_non_vectorized(image, edge_image, num_rhos=180, num_thetas=18
     #       subplot3.plot([theta], [rho], marker='o', color="yellow")
     #       subplot4.add_line(mlines.Line2D([x1, x2], [y1, y2],color="white"))
     #       out_img=cv2.line(out_img,(x1,y1),(x2,y2),(255,255,255),1) 
-  indices, top_thetas, top_rhos=peak_votes(accumulator,rhos,thetas,25)
+  indices, top_thetas, top_rhos=peak_votes(accumulator,rhos,thetas,50)
   for i in range(len(indices)):
       rho = top_rhos[i]
       theta = top_thetas[i]
@@ -82,7 +82,7 @@ def line_detection_non_vectorized(image, edge_image, num_rhos=180, num_thetas=18
       out_img=cv2.line(out_img,(x1,y1),(x2,y2),(0,255,0),1) 
 
 
-  cv2.imwrite("linesOutput.jpg",out_img)
+  cv2.imwrite("linesOutput2.jpg",out_img)
   # cv2.imshow("output" ,out_img)
   # cv2.imshow("input",image)
   # cv2.waitKey(0)
@@ -111,6 +111,6 @@ def hough_lines(path):
     line_detection_non_vectorized(image, edge_image)
 
 if __name__ == "__main__":
-    hough_lines("linesInput.jpg")
+    hough_lines("linesInput2.jpg")
 
 

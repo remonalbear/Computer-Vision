@@ -1,4 +1,4 @@
-# Computer Vision Course - Group Task #1
+# Computer Vision Course - Group Task #2
 
 ---
 
@@ -17,168 +17,121 @@
 
 | Requiered Part | Title |
 | ----------- | ----------- |
-| [GUI](#part-0) | Graphical User Interface - GUI |
-| [#Part 1](#part-1) | Add additive noise to the image |
-| [#Part 2](#part-2) | Filter the noisy image |
-| [#Part 3](#part-3) | Detect edges in the image |
-| [#Part 4](#part-4) | Draw histogram and distribution curve |
-| [#Part 5](#part-5) | Equalize the image |
-| [#Part 6](#part-6) | Normalize the image |
-| [#Part 7](#part-7) | Local and global thresholding |
-| [#Part 8](#part-8) | Transformation from color image to gray scale |
-| [#Part 9](#part-9) | Frequency domain filters |
-| [#Part 10](#part-10) | Hybrid images |
+| [#Part 1](#part-1) | Canny Edge Detection |
+| [#Part 2](#part-2) | Hough Lines Cetection |
+| [#Part 3](#part-3) | Hough Circles Cetection |
+| [#Part 4](#part-4) | Active contour|
 
 ---
 
-# Part 0
-
-## Graphical User Interface - GUI
-
-
-We display all the requirments in one window 
-using the GUI you can change some parameters like:
-
-    1. type of the filter
-    2. noise value
-    3. threshold 
-
-![GUI](Screenshots/gui.JPG)
+![GUI](ScreenShots/Screenshot_2021-04-24_172030.png)
 
 ---
 
 # Part 1
 
-## Add additive noise to the image
+## Canny Edge Detection
 
-We add three different type of noise :
-* Uniform
-* Guassian
-* Salt & Pepper
+The Canny edge detector is an edge detection operator that uses a multi-stage algorithm to detect a wide range of edges in images. It was developed in 1986. Canny also produced a computational theory of edge detection explaining why the technique works.
 
-You can change between them using combo box and change the amount of noise using slider
-### Uniform
-![Uniform Noise](Screenshots/uniform.png)
-### Guassian
-![Gaussian Noise](Screenshots/guassian.png)
-### Salt & Pepper
-![Salt & Pepper Noise](Screenshots/salt_pepper.png)
+
+#### The Canny edge detection algorithm is composed of 5 stages:
+
+#####1. Smoothing for noise removal.
+   Since the mathematics involved behind the scene are mainly based on derivatives, edge detection results are highly sensitive to image noise.
+   To get rid of the noise on the image, we apply Gaussian blur to smooth it. Image convolution technique is applied with a Gaussian Kernel. The kernel size depends on the expected blurring effect.
+#####2. Finding Gradients.
+   The Gradient calculation step detects the edge intensity and direction by calculating the gradient of the image using edge detection operators.
+#####3. None-maximum suppression.
+   We must perform non-maximum suppression to thin out the edges. The principle is simple: the algorithm goes through all the points on the gradient intensity matrix and finds the pixels with the maximum value in the edge directions.
+#####4. Double Thresholding.
+   The double threshold step aims at identifying 3 kinds of pixels: strong, weak, and non-relevant:
+   Strong pixels: are pixels that have an intensity so high that we are sure they contribute to the final edge.
+   Weak pixels: are pixels that have an intensity value that is not enough to be considered as strong ones, but yet not small enough to be considered as non-relevant for the edge detection.
+   Other pixels: are considered as non-relevant for the edge.
+#####5. Edge Tracking by hysteresis.
+   Based on the threshold results, the hysteresis consists of transforming weak pixels into strong ones, if and only if at least one of the pixels around the one being processed is a strong one,
+
+![Input_img](ScreenShots/CannyInput.jpg)
+![Output_img](ScreenShots/CannyOutput.png)
 ---
 
 
-# Part 2
+# Part 2 
 
-## Filter the noisy image using the following low pass filters:
-in this section we use function "avgFilter" to manipulate the noisy image with a specific filter we choose and the result is ... 
-## - original image
-![original of Image](Screenshots/org.png)
-## - Average filter
-![Average filter](Screenshots/avg.png)
-## - Gaussian filter
-![Gaussian filter](Screenshots/gas.png)
-## - Salt & papper pic
-![Salt & papper pic](Screenshots/salt&papper.png)
-## - median filters
-![median filters](Screenshots/medain.png)
+## Hough Lines Detections
+We implement hough algorithm to detect lines in images.
+There are some parameters you can change it to adapt to your image like
+
+    1. Number of lines to be detected 
+    2. Length of the Lines
+    3. Number of Rhos and Thetas
+    4. Step of Rhos and thetas
+### example 1
+here is the input image
+
+![Lines Input 1](ScreenShots/linesInput.jpg)
+
+We detect the top 25 line with length 200 pixel by using 180 angle and 180 rho 
+here is the output
+
+![Lines Output 1](ScreenShots/linesOutput.jpg)
+
+### example 2
+here is the input image
+
+![Lines Input 2](ScreenShots/linesInput2.jpg)
+
+We detect the top 50 line with length 200 pixel by using 180 angle and 180 rho 
+here is the output
+
+![Lines Output 2](ScreenShots/linesOutput2.jpg)
 
 ---
 
 # Part 3
 
-## Detect edges in the image using the following masks:
-## - Sobel , Roberts , Prewitt and Canny edge detectors
-in this section we use function "edgFilters" to manipulate the image with a specific filter we choose and the result is ... 
-## - original pic
-![original pic](Screenshots/org.png)
-## - Sobel filter
-![Sobel filter](Screenshots/sobal.png)
-## - Roberts pic
-![Roberts pic](Screenshots/roberts.png)
-## - Prewitt filters
-![Prewitt filters](Screenshots/prewitt.png)
+## Hough Circles Detections
+We implement hough algorithm to detect Cicles in images.
+There are some parameters you can change it to adapt to your image like
 
+    1. Minimum Radius
+    2. Maximum Radius
+    3. Step of Radius
+    4. Number of Thetas
+    5. Step of Thetas
+
+### example 1
+here is the input image
+
+![Circles Input 1](ScreenShots/CirclesInput.jpg)
+
+The parameters was minimum radius of 30 and maximum of 200 with step of 1 and 360 angles with step of 1 
+
+here is the output
+
+![Circles Output 1](ScreenShots/CirclesOutput.jpg)
+
+### example 2
+here is the input image
+
+![Circles Input 2](ScreenShots/CirclesInput2.jpg)
+
+The parameters was minimum radius of 15 and maximum of 200 with step of 1 and 360 angles with step of 1 
+
+here is the output
+
+![Circles Output 2](ScreenShots/CirclesOutput2.jpg)
 ---
 
 # Part 4
 
-## Draw histogram and distribution curve
+## Active contour
 
-In this part we've implemented a function called "df" that takes an image data array and return the histogram values for each intensity value.
+this is the original image that we want to detect the boundaries of it.
 
-Using that values to draw a "BarGraphItem" on pyqtgraph we got the following output...
+![GUI](ScreenShots/snakeImageInput.png)
 
-![Histogram of Image](Screenshots/histogram_img.png)
+Starting with initial guess for the boundary points, then shift the points around until they reach to the local minimum of the energy function.
 
----
-
-# Part 5
-
-## Equalize the image
-
-Using the previous histogram to generate a histogram equalization function by looping over the whole image array and equalize the output of the process we got the following image...
-
-![Equalization of Image](Screenshots/eq_img.png)
-
-You can see the difference in histograms, now it's values distributed over larger range of data.
-
----
-
-# Part 6
-
-## Normalize the image
-
-Normalization process doesn't depend on histogram, as we know.
-
-By calculating the mean and standard deviation for image data array and using the following equation:
-
-`New Value = (Original Value - mean) / std^2`
-
-We got the following image...
-
-![Normalization of Image](Screenshots/norm_img.png)
-
----
-
-# Part 7
-
-## Local and global thresholding
-
-Global Thresholding: We implemented the global function where it iterates over all the image's pixels and assign it to a new value where it becomes 255 or 0 according to whether or not it's greater than a given threshold provided by the user.
-![Global_thresh_img](Screenshots/Global.png)
-Local Thresholding: We implemented the local function to work as it divides the image to many smaller windows where their size is selected by the user, the mean is calculated to the selected window and then is used as the threshold value to this window by applying the same technique used in the global function, the user have the option to choose if a constant is needed to be subtracted from the mean before applying it to the window. 
-![Local_thresh_img](Screenshots/Local.png)
-
----
-
-# Part 8
-
-## Transformation from color image to gray scale image and plot of R, G, and B histograms with its distribution function (cumulative curve that you use it for mapping and histogram equalization)
-
-The  transformation of a colored image to a gray scale image was done by selecting each corresponding pixel in the 3 channels(ie. RGB) and multiplying these value by certain constant values respectively and add them together. the result is then equal to the pixel value needed to acheive the suitabale grey color for that pixel.
-![Gray_scale_img](Screenshots/RGB2Gray.png)
-Where its histogram is displayed as follows
-![Gray_histogram](Screenshots/Histogram_gray.png)
-
----
-
-# Part 9
-
-## Frequency domain filters (high pass and low pass)
-in this section we use function "freqFilters" to manipulate the image with a LPS or HPS in the frequency domain and get the pic back and the result is ... 
-## - original pic
-![original pic](Screenshots/org.png)
-## - low pass filter
-![Sobel filter](Screenshots/LPF.png)
-## - Roberts pic
-![Roberts pic](Screenshots/HPF.png)
-
----
-
-# Part 10
-
-## Hybrid images
-
-After implementing the high pass and the low pass filters required in part 9, hybrid images could be acheiving by simply applying the high filter on an image and the low pass on another and adding the results of each together to reach the merging between the two images needed.
-![Hybrid_imgs](Screenshots/Hyb_img.png)
-
----
+![GUI](ScreenShots/snakeImageOutput.png)

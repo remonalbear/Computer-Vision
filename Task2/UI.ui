@@ -93,17 +93,7 @@
                       </widget>
                      </item>
                      <item>
-                      <widget class="QLabel" name="linesInputImage">
-                       <property name="text">
-                        <string/>
-                       </property>
-                       <property name="scaledContents">
-                        <bool>true</bool>
-                       </property>
-                       <property name="alignment">
-                        <set>Qt::AlignCenter</set>
-                       </property>
-                      </widget>
+                      <widget class="QLabel" name="label"/>
                      </item>
                     </layout>
                    </item>
@@ -143,15 +133,9 @@
                       </widget>
                      </item>
                      <item>
-                      <widget class="QLabel" name="linesOutputImage">
-                       <property name="text">
-                        <string/>
-                       </property>
-                       <property name="scaledContents">
-                        <bool>true</bool>
-                       </property>
-                       <property name="alignment">
-                        <set>Qt::AlignCenter</set>
+                      <widget class="QLabel" name="label_2">
+                       <property name="pixmap">
+                        <pixmap>linesOutput.jpg</pixmap>
                        </property>
                       </widget>
                      </item>
