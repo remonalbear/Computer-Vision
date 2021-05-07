@@ -2,7 +2,6 @@ import numpy as np
 from scipy import signal as sig
 from scipy import ndimage as ndi
 import matplotlib.pyplot as plt
-from skimage.feature import corner_peaks
 from skimage.io import imread
 from skimage.color import rgb2gray
 import cv2 as cv2
@@ -23,7 +22,7 @@ def gradient_y(grayImg):
     return sig.convolve2d(grayImg, kernel_y, mode='same')
 
 
-def harris(grayImg):
+def dola(grayImg):
     Ix = gradient_x(grayImg)
     Iy = gradient_y(grayImg)
 
@@ -44,7 +43,7 @@ def harris(grayImg):
 
 
 
-    dola = np.zeros((srcImg.shape[0],srcImg.shape[1]))
+    dola = np.zeros((grayImg.shape[0],grayImg.shape[1]))
     dola[R>0.01*R.max()] = True
     x = np.where(dola == True)
     features =np.asarray(x).T.tolist()
@@ -52,12 +51,12 @@ def harris(grayImg):
 
 
 # srcImg[R>0.01*R.max()]=[0,0,255]
-filename = 'cat.jpg'
-srcImg = imread(filename)
-grayImg = rgb2gray(srcImg)
-features = harris(grayImg)
-result_image = srcImg
-for match in features:
-    result_image = cv2.circle(result_image, (match[1], match[0]), radius=0, color=(0, 0, 255), thickness=-1)
-cv2.imshow("result", result_image)
-cv2.waitKey(0)
+# filename = 'cat.jpg'
+# srcImg = imread(filename)
+# grayImg = rgb2gray(srcImg)
+# features = dola(grayImg)
+# result_image = srcImg
+# for match in features:
+#     result_image = cv2.circle(result_image, (match[1], match[0]), radius=0, color=(0, 0, 255), thickness=-1)
+# cv2.imshow("result", result_image)
+# cv2.waitKey(0)
