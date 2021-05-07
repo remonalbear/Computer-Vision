@@ -5,8 +5,8 @@ import matplotlib.pyplot as plt
 from skimage.feature import corner_peaks
 from skimage.io import imread
 from skimage.color import rgb2gray
-
-filename = 'box.jpg'
+import cv2 as cv2
+filename = 'cat.jfif'
 
 srcImg = imread(filename)
 
@@ -38,8 +38,18 @@ traceA = Ixx + Iyy
 R = detA - k * traceA ** 2
 
 
-# corners = corner_peaks(R,threshold_abs=3)
-srcImg[R>0.01*R.max()]=[255,0,0]
-fig, ax = plt.subplots()
-ax.imshow(srcImg, interpolation='nearest', cmap=plt.cm.gray)
-plt.show()
+
+
+dola = np.zeros((srcImg.shape[0],srcImg.shape[1]))
+dola[R>0.01*R.max()] = True
+x = np.where(dola == True)
+features =np.asarray(x).T.tolist()
+
+
+# srcImg[R>0.01*R.max()]=[0,0,255]
+
+result_image = srcImg
+for match in features:
+    result_image = cv2.circle(result_image, (match[1], match[0]), radius=0, color=(0, 0, 255), thickness=-1)
+cv2.imshow("result", result_image)
+cv2.waitKey(0)
