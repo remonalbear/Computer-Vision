@@ -11,13 +11,13 @@ class GUI(Ui_MainWindow):
     def __init__(self,MainWindow):
         super(GUI,self).setupUi(MainWindow)
         
-        filename = 'lena.jpg'
+        filename = 'cat.jpg'
         srcImg1 = cv2.imread(filename, cv2.COLOR_BGR2RGB)
         grayImg1 = rgb2gray(srcImg1)
         features1 = self.harris(grayImg1)
         result_image = srcImg1
 
-        srcImg2 = cv2.imread("lena_temp.jpg", cv2.COLOR_BGR2RGB)
+        srcImg2 = cv2.imread("cat22.jpg", cv2.COLOR_BGR2RGB)
         grayImg2 = rgb2gray(srcImg2)
         features2 = self.harris(grayImg2)
         result_image2 = srcImg2
