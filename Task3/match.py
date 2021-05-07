@@ -1,7 +1,7 @@
 import numpy as np
 import cv2
 import matplotlib.pyplot as plt
-
+from scipy import signal
 
 def match_ssd(img, templ):
     if(len(img.shape) == 2):
@@ -38,7 +38,7 @@ template_img = main_image[150:250, 200:300]
 
 # y,x = match_ssd(main_image, template_img)
 # print(x, y)
-y,x = match_ssd(main_image, template_img)
+(y,x) = match_normalized(main_image, template_img)
 print(x, y)
 fig, axs = plt.subplots(1, 3, gridspec_kw={'width_ratios':[1, 3, 3]})
 ax1, ax2, ax3 = axs
