@@ -54,12 +54,12 @@ Steps:
 
 ### Key Point Descriptors
 Steps:
-* take 16 * 16 kernal 
-* split it to 4 * 4 regions
-* for each region we compute the magnitude and oriantation of the gradient 
-* multiply the magnitude by guassian filter
-* compute the histogram for each region where each bin is 45 degrees 
-* we have 4 * 4 * 8 = 128 length descriptor  
+1. take 16 * 16 kernal 
+1. split it to 4 * 4 regions
+1. for each region we compute the magnitude and oriantation of the gradient 
+1. multiply the magnitude by guassian filter
+1. compute the histogram for each region where each bin is 45 degrees 
+1. we have 4 * 4 * 8 = 128 length descriptor  
 ![Main oriantation 2](ScreenShots/descriptors.png)
 
 
@@ -67,7 +67,16 @@ Steps:
 
 # Part 3
 
+## Template Matching:
 
+we use the descriptors calculated from the last step to acheieve matching of features as required.
 
+We used two methods to do the matching process:
+1. Matching using Sum of square difference
+   * Where we calculate the difference between the descriptor's vector elements, square them, add them and finally selecting the least sum which corresponds to the best match available
+2. Matching using Normalized cross-correlation
+   * Where we calculate the coorelation between the descriptor's vector elements, normalize the result and selecting the highest value of correlation which corresponds to the best match available
+
+![Matching Features](ScreenShots/lena.png)
 
 
