@@ -4,7 +4,7 @@ import cv2 as cv
 import math
 import matplotlib.pyplot as plt
 from matplotlib.patches import ConnectionPatch
-from Harris_Corner_Detection_Algorithm import dola 
+from Harris_Corner_Detection_Algorithm import harris 
 
 
 #get gradient of a point in image
@@ -197,39 +197,23 @@ def local_descriptors(img,key_points):
 
 
 
-# gray = np.float32(gray)
-# dst = cv.cornerHarris(gray,2,3,0.04)
-# temp=np.zeros(gray.shape)
-# #result is dilated for marking the corners, not important
-# dst = cv.dilate(dst,None)
-# # Threshold for an optimal value, it may vary depending on the image.
-# img[dst>0.01*dst.max()]=[0,255,0]
-# cv.imshow('dst',img)
-# if cv.waitKey(0) & 0xff == 27:
-#     cv.destroyAllWindows()
-
 
 
 filename = 'cat.jpg'
 img = cv.imread(filename)
 gray = cv.cvtColor(img,cv.COLOR_BGR2GRAY)
-key_points = dola(gray)
-# print(len(key_points))
-# print(gray.shape[0]*gray.shape[0])
-# cv.imshow("gray",gray)
-# cv.waitKey(0)
+key_points = harris(gray)
+#
 new_key_points = main_orientation(gray,key_points)
 new_key_points = local_descriptors(gray,new_key_points)
 result1 = np.array(new_key_points)
-# print(result1[0].shape)
-# print(type(result1[0]))
+#
 image2 = cv.imread("cat22.jpg", cv.IMREAD_GRAYSCALE)
-key_points2 = dola(image2)
+key_points2 = harris(image2)
 new_key_points2 = main_orientation(image2, key_points2)
 new_key_points2 = local_descriptors(image2, new_key_points2)
 result2 = np.array(new_key_points)
-# print(result1.shape)
-# print(result2.shape)
+#
 matches1 = []
 matches2 = []
 for idx, ele2  in enumerate(result2):
