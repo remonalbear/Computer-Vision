@@ -28,10 +28,10 @@
 ## Harris Operator
 we implement a code for using harris operator to extract the features from images.
 Here an image of cat we use as a sample to test our implementaion. 
-![Main oriantation](cat_rotate.jpeg)
+![Main oriantation](screenshots/cat_rotate.jpeg)
 
 then after applying the harris operator the output will be
-![Main oriantation](ScreenShots/catHarris.png)
+![Main oriantation](screenshots/catHarris.png)
 
 
 ---
@@ -53,9 +53,9 @@ Steps:
 * multiply the magnitude by guassian filter 
 * claculate the histogram of this kernal where each bin is 10 degrees 
 * take the biggest bin of the histogram and assign it to the point
-![Main oriantation](ScreenShots/oraintation.jpg)
+![Main oriantation](screenshots/oraintation.jpg)
 
-![Main oriantation 2](ScreenShots/oraintation2.jpg)
+![Main oriantation 2](screenshots/oraintation2.jpg)
 
 ### Key Point Descriptors
 Steps:
@@ -65,7 +65,8 @@ Steps:
 1. multiply the magnitude by guassian filter
 1. compute the histogram for each region where each bin is 45 degrees 
 1. we have 4 * 4 * 8 = 128 length descriptor  
-![Main oriantation 2](ScreenShots/descriptors.png)
+
+![Main oriantation 2](screenshots/descriptors.png)
 
 
 ---
@@ -82,6 +83,6 @@ We used two methods to do the matching process:
 2. Matching using Normalized cross-correlation
    * Where we calculate the coorelation between the descriptor's vector elements, normalize the result and selecting the highest value of correlation which corresponds to the best match available
 
-![Matching Features](ScreenShots/lena.png)
+![Matching Features](screenshots/lena.PNG)
 
 
