@@ -13,7 +13,7 @@ class GUI(Ui_MainWindow):
         super(GUI,self).setupUi(MainWindow)
         
         filename = 'cat.jpg'
-        srcImg = imread(filename)
+        srcImg = cv2.imread(filename,cv2.COLOR_BGR2RGB)
         grayImg = rgb2gray(srcImg)
         features = self.harris(grayImg)
         result_image = srcImg
