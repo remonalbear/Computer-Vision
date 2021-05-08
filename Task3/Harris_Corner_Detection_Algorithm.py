@@ -22,7 +22,7 @@ def gradient_y(grayImg):
     return sig.convolve2d(grayImg, kernel_y, mode='same')
 
 
-def dola(grayImg):
+def harris(grayImg):
     Ix = gradient_x(grayImg)
     Iy = gradient_y(grayImg)
 
@@ -44,7 +44,7 @@ def dola(grayImg):
 
 
     dola = np.zeros((grayImg.shape[0],grayImg.shape[1]))
-    dola[R>0.01*R.max()] = True
+    dola[R>0.1*R.max()] = True
     x = np.where(dola == True)
     features =np.asarray(x).T.tolist()
     return features
