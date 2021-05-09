@@ -42,8 +42,8 @@ class GUI(Ui_MainWindow):
         cv2.imwrite('match1.jpg', match_img1)
         cv2.imwrite('match2.jpg', match_img2)
 
-        self.harrisInput2.setPixmap(QtGui.QPixmap('match1.jpg'))
-        self.harrisOutput2.setPixmap(QtGui.QPixmap('match2.jpg'))
+        # self.harrisInput1.setPixmap(QtGui.QPixmap('match1.jpg'))
+        # self.harrisOutput1.setPixmap(QtGui.QPixmap('match2.jpg'))
     def gradient_x(self,grayImg):
         ##Sobel operator kernels.
         kernel_x = np.array([[-1, 0, 1],[-2, 0, 2],[-1, 0, 1]])

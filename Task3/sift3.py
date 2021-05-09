@@ -199,55 +199,55 @@ def local_descriptors(img,key_points):
 
 
 
-filename = 'cat.jpg'
-img = cv.imread(filename)
-gray = cv.cvtColor(img,cv.COLOR_BGR2GRAY)
-key_points = harris(gray)
-#
-new_key_points = main_orientation(gray,key_points)
-new_key_points = local_descriptors(gray,new_key_points)
-result1 = np.array(new_key_points)
-#
-image2 = cv.imread("cat22.jpg", cv.IMREAD_GRAYSCALE)
-key_points2 = harris(image2)
-new_key_points2 = main_orientation(image2, key_points2)
-new_key_points2 = local_descriptors(image2, new_key_points2)
-result2 = np.array(new_key_points)
-#
-matches1 = []
-matches2 = []
-for idx, ele2  in enumerate(result2):
-    points_dis = []
-    for ele1 in result1:
-        diff = ele1[3]-ele2[3]
-        ssd = np.sum(np.square(diff))
-        points_dis.append(ssd)
-    # index = np.unravel_index(np.argmin(points_dis), len(points_dis))
-    index = points_dis.index(min(points_dis))
-    coordinates = (result1[index][0], result1[index][1])
-    matches1.append(coordinates)
-    matches2.append(result2[idx])
-# result_image = img
-# for match in matches1:
-#     result_image = cv.circle(result_image, (match[0], match[1]), radius=0, color=(0, 0, 255), thickness=-1)
-# cv.imshow("result", result_image)
-# cv.waitKey(0)
+# filename = 'cat.jpg'
+# img = cv.imread(filename)
+# gray = cv.cvtColor(img,cv.COLOR_BGR2GRAY)
+# key_points = harris(gray)
+# #
+# new_key_points = main_orientation(gray,key_points)
+# new_key_points = local_descriptors(gray,new_key_points)
+# result1 = np.array(new_key_points)
+# #
+# image2 = cv.imread("cat22.jpg", cv.IMREAD_GRAYSCALE)
+# key_points2 = harris(image2)
+# new_key_points2 = main_orientation(image2, key_points2)
+# new_key_points2 = local_descriptors(image2, new_key_points2)
+# result2 = np.array(new_key_points)
+# #
+# matches1 = []
+# matches2 = []
+# for idx, ele2  in enumerate(result2):
+#     points_dis = []
+#     for ele1 in result1:
+#         diff = ele1[3]-ele2[3]
+#         ssd = np.sum(np.square(diff))
+#         points_dis.append(ssd)
+#     # index = np.unravel_index(np.argmin(points_dis), len(points_dis))
+#     index = points_dis.index(min(points_dis))
+#     coordinates = (result1[index][0], result1[index][1])
+#     matches1.append(coordinates)
+#     matches2.append(result2[idx])
+# # result_image = img
+# # for match in matches1:
+# #     result_image = cv.circle(result_image, (match[0], match[1]), radius=0, color=(0, 0, 255), thickness=-1)
+# # cv.imshow("result", result_image)
+# # cv.waitKey(0)
 
 
-fig = plt.figure(figsize=(10,5))
-ax1 = fig.add_subplot(121)
-ax2 = fig.add_subplot(122)
+# fig = plt.figure(figsize=(10,5))
+# ax1 = fig.add_subplot(121)
+# ax2 = fig.add_subplot(122)
 
-ax1.imshow(gray)
-ax2.imshow(image2)
+# ax1.imshow(gray)
+# ax2.imshow(image2)
 
 
-for i in range(0, len(matches1), 15):
-    con = ConnectionPatch(xyA=(matches1[i][0], matches1[i][1]), xyB=(matches2[i][0], matches2[i][1]), coordsA="data", coordsB="data",
-                        axesA=ax1, axesB=ax2, color="red")
-    ax2.add_artist(con)
-    # print("hello")
-plt.show()
+# for i in range(0, len(matches1), 15):
+#     con = ConnectionPatch(xyA=(matches1[i][0], matches1[i][1]), xyB=(matches2[i][0], matches2[i][1]), coordsA="data", coordsB="data",
+#                         axesA=ax1, axesB=ax2, color="red")
+#     ax2.add_artist(con)
+#     # print("hello")
+# plt.show()
 
 
 

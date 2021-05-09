@@ -115,7 +115,7 @@ class Ui_MainWindow(object):
         self.verticalLayout_3.addWidget(self.label_5)
         self.harrisInput2 = QtWidgets.QLabel(self.frame_7)
         self.harrisInput2.setText("")
-        self.harrisInput2.setPixmap(QtGui.QPixmap("screenshots/cat_rotate.jpeg"))
+        self.harrisInput2.setPixmap(QtGui.QPixmap("screenshots/cat22.jpg"))
         self.harrisInput2.setScaledContents(True)
         self.harrisInput2.setObjectName("harrisInput2")
         self.verticalLayout_3.addWidget(self.harrisInput2)
@@ -138,7 +138,7 @@ class Ui_MainWindow(object):
         self.verticalLayout_4.addWidget(self.label_7)
         self.harrisOutput2 = QtWidgets.QLabel(self.frame_8)
         self.harrisOutput2.setText("")
-        self.harrisOutput2.setPixmap(QtGui.QPixmap("screenshots/catHarris.png"))
+        self.harrisOutput2.setPixmap(QtGui.QPixmap("screenshots/reult2.jpg"))
         self.harrisOutput2.setScaledContents(True)
         self.harrisOutput2.setObjectName("harrisOutput2")
         self.verticalLayout_4.addWidget(self.harrisOutput2)
@@ -165,7 +165,7 @@ class Ui_MainWindow(object):
         self.verticalLayout_5.addWidget(self.Ma)
         self.MatchingImage = QtWidgets.QLabel(self.frame_4)
         self.MatchingImage.setText("")
-        self.MatchingImage.setPixmap(QtGui.QPixmap("screenshots/lena.PNG"))
+        self.MatchingImage.setPixmap(QtGui.QPixmap("screenshots/match.PNG"))
         self.MatchingImage.setScaledContents(True)
         self.MatchingImage.setAlignment(QtCore.Qt.AlignCenter)
         self.MatchingImage.setObjectName("MatchingImage")
@@ -189,11 +189,11 @@ class Ui_MainWindow(object):
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
         MainWindow.setWindowTitle(_translate("MainWindow", "MainWindow"))
-        self.label.setText(_translate("MainWindow", "Matching Input"))
-        self.label_2.setText(_translate("MainWindow", "Matching Output"))
-        self.label_5.setText(_translate("MainWindow", "Harris Input"))
-        self.label_7.setText(_translate("MainWindow", "Harris Output"))
-        self.Ma.setText(_translate("MainWindow", "Matching Image"))
+        self.label.setText(_translate("MainWindow", "Harris Input 1"))
+        self.label_2.setText(_translate("MainWindow", "Harris Output 1"))
+        self.label_5.setText(_translate("MainWindow", "Harris Input 2"))
+        self.label_7.setText(_translate("MainWindow", "Harris Output 2"))
+        self.Ma.setText(_translate("MainWindow", "Matching Image with the template"))
 
 
 if __name__ == "__main__":
