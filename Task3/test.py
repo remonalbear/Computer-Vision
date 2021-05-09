@@ -8,9 +8,9 @@ from sift3 import main_orientation, local_descriptors
 
 
 
-face1 = cv2.imread("cat.jpg")
-# face2 = face1[150:250, 200:300]
-face2 = cv2.imread("cat22.jpg")
+face1 = cv2.imread("lena.jpg")
+face2 = face1[150:250, 200:300]
+# face2 = cv2.imread("cat22.jpg")
 # face2 = cv2.imread("lena_temp.jpg")
 face1 = cv2.cvtColor(face1, cv2.COLOR_BGR2RGB)
 face2 = cv2.cvtColor(face2, cv2.COLOR_BGR2RGB)
@@ -54,22 +54,25 @@ def ssd_match(des1, des2):
     return matches
     
 def normalized_match(des1, des2):
-    des1 = np.array(des1)
-    des2 = np.array(des2)
+    sort_list = []
     matches = [[] for i in range(2)]
     for idx, ele2  in enumerate(des2):
         points_dis = []
         for ele1 in des1:
-            nnc = np.mean(np.multiply((ele1-np.mean(ele1)),(ele2-np.mean(ele2))))/(np.std(ele1)*np.std(ele2))
+            nnc = np.mean(np.multiply((ele1[3]-np.mean(ele1[3])),(ele2[3]-np.mean(ele2[3]))))/(np.std(ele1[3])*np.std(ele2[3]))
             points_dis.append(nnc)
         # index = np.unravel_index(np.argmin(points_dis), len(points_dis))
-        index = points_dis.index(max(points_dis))
-        matches[0].append(kp1[index])
-        matches[1].append(kp2[idx])
+        min_value = max(points_dis)
+        index = points_dis.index(min_value)
+        sort_list.append((kp1[index], kp2[idx], min_value))
+    sorted_list = sorted(sort_list, key=lambda x: x[2])
+    for element in sorted_list:
+        matches[0].append(element[0])
+        matches[1].append(element[1])
     return matches
 # matches2 = cv2.BFMatcher().knnMatch(des1, des2, k=2)
-matches = ssd_match(des1, des2)
-# matches = normalized_match(des1,des2)
+# matches = ssd_match(des1, des2)
+matches = normalized_match(des1,des2)
 # print(matches[0])
 # print(matches[0][0].pt)
 # print(type(matches2[0][0]))
