@@ -28,9 +28,11 @@
 ## Harris Operator
 we implement a code for using harris operator to extract the features from images.
 Here an image of cat we use as a sample to test our implementaion. 
+
 ![Main oriantation](screenshots/cat_rotate.jpeg)
 
-then after applying the harris operator the output will be
+then after applying the harris operator the output will be:
+
 ![Main oriantation](screenshots/catHarris.png)
 
 
