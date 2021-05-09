@@ -1,4 +1,4 @@
-from UI import *
+from GUI import *
 from PyQt5 import QtCore, QtGui,QtWidgets
 import numpy as np
 from scipy import signal as sig
@@ -36,9 +36,9 @@ class GUI(Ui_MainWindow):
         match_img1 =srcImg1
         match_img2 = srcImg2
         for i, match in enumerate(features1):
-            match_img1 = cv2.circle(match_img1, (match[1], match[0]), radius=0, color=int(colors[i%8]), thickness=-1)
+            match_img1 = cv2.circle(match_img1, (match[1], match[0]), radius=0, color=colors[i%8], thickness=-1)
         for j, match in enumerate(features2):
-            match_img2 = cv2.circle(match_img2, (match[1], match[0]), radius=0, color=int(colors[j%8]), thickness=-1)
+            match_img2 = cv2.circle(match_img2, (match[1], match[0]), radius=0, color=colors[j%8], thickness=-1)
         cv2.imwrite('match1.jpg', match_img1)
         cv2.imwrite('match2.jpg', match_img2)
 
