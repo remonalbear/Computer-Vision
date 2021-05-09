@@ -189,10 +189,10 @@ class Ui_MainWindow(object):
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
         MainWindow.setWindowTitle(_translate("MainWindow", "MainWindow"))
-        self.label.setText(_translate("MainWindow", "Harris Input 1"))
-        self.label_2.setText(_translate("MainWindow", "Harris Output 1"))
-        self.label_5.setText(_translate("MainWindow", "Harris Input 2"))
-        self.label_7.setText(_translate("MainWindow", "Harris Output 2"))
+        self.label.setText(_translate("MainWindow", "Matching Input"))
+        self.label_2.setText(_translate("MainWindow", "Matching Output"))
+        self.label_5.setText(_translate("MainWindow", "Harris Input"))
+        self.label_7.setText(_translate("MainWindow", "Harris Output"))
         self.Ma.setText(_translate("MainWindow", "Matching Image"))
 
 

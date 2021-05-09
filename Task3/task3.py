@@ -30,8 +30,8 @@ class GUI(Ui_MainWindow):
         for match in features2:
             result_image2 = cv2.circle(result_image2, (match[1], match[0]), radius=0, color=(0, 0, 255), thickness=-1)
         imageName = 'result.jpg'   
-        cv2.imwrite('reult2.jpg', result_image2)
-        cv2.imwrite(imageName, result_image)
+        # cv2.imwrite('reult2.jpg', result_image2)
+        # cv2.imwrite(imageName, result_image)
         
         match_img1 =srcImg1
         match_img2 = srcImg2
@@ -42,8 +42,8 @@ class GUI(Ui_MainWindow):
         cv2.imwrite('match1.jpg', match_img1)
         cv2.imwrite('match2.jpg', match_img2)
 
-        self.label.setPixmap(QtGui.QPixmap('match1.jpg'))
-        self.label_2.setPixmap(QtGui.QPixmap('match2.jpg'))
+        self.harrisInput2.setPixmap(QtGui.QPixmap('match1.jpg'))
+        self.harrisOutput2.setPixmap(QtGui.QPixmap('match2.jpg'))
     def gradient_x(self,grayImg):
         ##Sobel operator kernels.
         kernel_x = np.array([[-1, 0, 1],[-2, 0, 2],[-1, 0, 1]])
