@@ -17,7 +17,6 @@ gray1 = cv2.cvtColor(face1, cv2.COLOR_RGB2GRAY)
 gray2 = cv2.cvtColor(face2, cv2.COLOR_RGB2GRAY)
 
 sift = cv2.SIFT_create()
-orb = cv2.ORB_create()
 kp1, des1 = sift.detectAndCompute(gray1,None)
 kp2, des2 = sift.detectAndCompute(gray2, None)
 
@@ -47,7 +46,6 @@ def normalized_match(des1, des2):
         index = points_dis.index(max(points_dis))
         matches[0].append(kp1[index])
         matches[1].append(kp2[idx])
-        matches = [matches[0][:10], matches[1][:10]]
     return matches
 # matches2 = cv2.BFMatcher().knnMatch(des1, des2, k=2)
 matches = ssd_match(des1, des2)

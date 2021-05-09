@@ -7,18 +7,14 @@ from skimage.io import imread
 from skimage.color import rgb2gray
 import cv2 as cv2
 
+colors = [(255,0,0), (0,255,0), (0,0,255), (0,0,0), (255,255,255), (255,69,0), (255,0,255), (0,255,255)]
+
+
 class GUI(Ui_MainWindow):
     def __init__(self,MainWindow):
         super(GUI,self).setupUi(MainWindow)
         
         filename = 'cat.jpg'
-<<<<<<< HEAD
-        srcImg = cv2.imread(filename,cv2.COLOR_BGR2RGB)
-        grayImg = rgb2gray(srcImg)
-        features = self.harris(grayImg)
-        result_image = srcImg
-        for match in features:
-=======
         srcImg1 = cv2.imread(filename, cv2.COLOR_BGR2RGB)
         grayImg1 = rgb2gray(srcImg1)
         features1 = self.harris(grayImg1)
@@ -30,15 +26,24 @@ class GUI(Ui_MainWindow):
         result_image2 = srcImg2
 
         for match in features1:
->>>>>>> 4657c51d4cf4484020566ff641157b11ec1e6783
             result_image = cv2.circle(result_image, (match[1], match[0]), radius=0, color=(0, 0, 255), thickness=-1)
         for match in features2:
             result_image2 = cv2.circle(result_image2, (match[1], match[0]), radius=0, color=(0, 0, 255), thickness=-1)
         imageName = 'result.jpg'   
-        cv2.imwrite(imageName, result_image)
         cv2.imwrite('reult2.jpg', result_image2)
-        self.label.setPixmap(QtGui.QPixmap(imageName))
-        self.label_2.setPixmap(QtGui.QPixmap('reult2.jpg'))
+        cv2.imwrite(imageName, result_image)
+        
+        match_img1 =srcImg1
+        match_img2 = srcImg2
+        for i, match in enumerate(features1):
+            match_img1 = cv2.circle(match_img1, (match[1], match[0]), radius=0, color=int(colors[i%8]), thickness=-1)
+        for j, match in enumerate(features2):
+            match_img2 = cv2.circle(match_img2, (match[1], match[0]), radius=0, color=int(colors[j%8]), thickness=-1)
+        cv2.imwrite('match1.jpg', match_img1)
+        cv2.imwrite('match2.jpg', match_img2)
+
+        self.label.setPixmap(QtGui.QPixmap('match1.jpg'))
+        self.label_2.setPixmap(QtGui.QPixmap('match2.jpg'))
     def gradient_x(self,grayImg):
         ##Sobel operator kernels.
         kernel_x = np.array([[-1, 0, 1],[-2, 0, 2],[-1, 0, 1]])
@@ -74,8 +79,21 @@ class GUI(Ui_MainWindow):
 
         return features
 
-
-
+    def matching(self, gray1, gray2):
+        sift = cv2.SIFT_create()
+        kp1, des1 = sift.detectAndCompute(gray1,None)
+        kp2, des2 = sift.detectAndCompute(gray2, None)
+        matches = [[] for i in range(2)]
+        for idx, ele2  in enumerate(des2):
+            points_dis = []
+            for ele1 in des1:
+                nnc = np.mean(np.multiply((ele1-np.mean(ele1)),(ele2-np.mean(ele2))))/(np.std(ele1)*np.std(ele2))
+                points_dis.append(nnc)
+            # index = np.unravel_index(np.argmin(points_dis), len(points_dis))
+            index = points_dis.index(max(points_dis))
+            matches[0].append(kp1[index])
+            matches[1].append(kp2[idx])
+        return matches
 
 
 if __name__ == "__main__":
