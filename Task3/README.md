@@ -55,6 +55,7 @@ Steps:
 * multiply the magnitude by guassian filter 
 * claculate the histogram of this kernal where each bin is 10 degrees 
 * take the biggest bin of the histogram and assign it to the point
+
 ![Main oriantation](screenshots/oraintation.jpg)
 
 ![Main oriantation 2](screenshots/oraintation2.jpg)
