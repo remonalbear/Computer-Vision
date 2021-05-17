@@ -2,30 +2,38 @@ import numpy as np
 import cv2 
 import math
 
-def optimal_threshold(image):
-    Corners = [image[0,0], image[0,-1], image[-1, 0], image[-1, -1]]
-    BMean = np.mean(Corners)
-    FMean = np.mean(image) - BMean
-    threshold = (BMean + FMean) / float(2)
-    flag = True
-    while flag:
-        old_thresh = threshold
+def spectral_threshold(image):
+    blur = cv2.GaussianBlur(image,(5,5),0)
+    hist = cv2.calcHist([image],[0],None,[256],[0,256]) 
+    hist /= float(np.sum(hist)) 
+    BetweenClassVarsList = []
+    for bar, _ in enumerate(hist):
+        Foregroundlevels = []
+        BackgroundLevels = []
+        ForegroundHist = []
+        BackgroundHist = []
+        for level, value in enumerate(hist):
+            if level < bar:
+                BackgroundLevels.append(level)
+                BackgroundHist.append(value)
+            else:
+                Foregroundlevels.append(level)
+                ForegroundHist.append(value)
+        
+        FCumSum = np.sum(ForegroundHist)
+        BCumSum = np.sum(BackgroundHist)
+        FMean = np.sum(np.multiply(ForegroundHist, Foregroundlevels)) / float(FCumSum)
+        BMean = np.sum(np.multiply(BackgroundHist, BackgroundLevels)) / float(BCumSum)  
+        GMean = np.sum(np.multiply(hist, range(0, 256)))
+        BetClsVar = FCumSum*np.square(FMean - GMean) + BCumSum*np.square(BMean - GMean)
+        # print(BetClsVar)
+        BetweenClassVarsList.append(BetClsVar)
+    # print(max(BetweenClassVarsList))
+    return BetweenClassVarsList.index(np.nanmax(BetweenClassVarsList))
 
-        ForeHalf = np.extract(image > threshold, image)
-        BackHalf = np.extract(image < threshold, image)
 
-        if ForeHalf.size:
-            FMean = np.mean(ForeHalf)
-        else:
-            FMean = 0
 
-        if BackHalf.size:
-            BMean = np.mean(BackHalf)
-        else:
-            BMean = 0
 
-        threshold = (BMean + FMean) / float(2)
-        if old_thresh == threshold:
-            flag = False
 
-    return threshold
+
+
