@@ -19,9 +19,9 @@ def Global_threshold(image , thresh_typ = "Optimal"):
         threshold1, threshold2 = spectral_threshold(image)
         for row in range(image.shape[0]):
             for col in range(image.shape[1]):
-                if image[row, col] > threshold2:
+                if image[row, col] > threshold2[0]:
                     thresh_img[row, col] = 255
-                elif image[row, col] < threshold1:
+                elif image[row, col] < threshold1[0]:
                     thresh_img[row, col] = 0
                 else:
                     thresh_img[row, col] = 128   
