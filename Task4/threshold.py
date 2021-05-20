@@ -1,5 +1,3 @@
-from numpy.lib.type_check import imag
-from spectral import spectral_threshold
 import numpy as np
 import cv2 
 from otsu import otsu_threshold
@@ -10,14 +8,23 @@ from spectral import spectral_threshold
 def Global_threshold(image , thresh_typ = "Optimal"):
     if len(image.shape) > 2:
         image = cv2.cvtColor(image, cv2.COLOR_RGB2GRAY)
+    thresh_img = np.zeros(image.shape)
     if thresh_typ == "Otsu":
         threshold = otsu_threshold(image)
-    elif thresh_typ == "Spectral":
-        threshold = spectral_threshold(image)
-    else:
+        thresh_img = np.uint8(np.where(image > threshold, 255, 0))
+    elif thresh_typ == "Optimal":
         threshold = optimal_threshold(image)
-    print(threshold)
-    thresh_img = np.uint8(np.where(image > threshold, 255, 0))
+        thresh_img = np.uint8(np.where(image > threshold, 255, 0))
+    else:
+        threshold1, threshold2 = spectral_threshold(image)
+        for row in range(image.shape[0]):
+            for col in range(image.shape[1]):
+                if image[row, col] > threshold2:
+                    thresh_img[row, col] = 255
+                elif image[row, col] < threshold1:
+                    thresh_img[row, col] = 0
+                else:
+                    thresh_img[row, col] = 128   
     return thresh_img
 
 def Local_threshold(image, block_size , thresh_typ = "Optimal"):

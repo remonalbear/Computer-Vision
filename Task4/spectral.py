@@ -20,16 +20,23 @@ def spectral_threshold(image):
                 Foregroundlevels.append(level)
                 ForegroundHist.append(value)
         
-        FCumSum = np.sum(ForegroundHist)
-        BCumSum = np.sum(BackgroundHist)
-        FMean = np.sum(np.multiply(ForegroundHist, Foregroundlevels)) / float(FCumSum)
-        BMean = np.sum(np.multiply(BackgroundHist, BackgroundLevels)) / float(BCumSum)  
-        GMean = np.sum(np.multiply(hist, range(0, 256)))
-        BetClsVar = FCumSum*np.square(FMean - GMean) + BCumSum*np.square(BMean - GMean)
-        # print(BetClsVar)
+        FWeights = np.sum(ForegroundHist) / float(np.sum(hist))
+        BWeights = np.sum(BackgroundHist) / float(np.sum(hist))
+        FMean = np.sum(np.multiply(ForegroundHist, Foregroundlevels)) / float(np.sum(ForegroundHist))
+        BMean = np.sum(np.multiply(BackgroundHist, BackgroundLevels)) / float(np.sum(BackgroundHist))
+        BetClsVar = FWeights * BWeights * np.square(BMean - FMean)
         BetweenClassVarsList.append(BetClsVar)
-    # print(max(BetweenClassVarsList))
-    return BetweenClassVarsList.index(np.nanmax(BetweenClassVarsList))
+    thresh1 = np.nanmax(BetweenClassVarsList)
+    idx2 = BetweenClassVarsList.index(thresh1)
+    BetweenClassVarsList = np.nan_to_num(BetweenClassVarsList)
+    idx = -1
+    thresh2 = BetweenClassVarsList[0]
+    for index, value in enumerate(BetweenClassVarsList):
+        if value > thresh2:
+            if value == thresh1:
+                thresh2 = value
+                idx = index
+    return (idx, idx2)
 
 
 
