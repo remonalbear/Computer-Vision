@@ -40,10 +40,10 @@
 Results:
 
 * 
-![mean shift result 1](ScreenShots/mean_seg_res1.jpg)
+![mean shift result 1](ScreenShots/mean_seg_res1.JPG)
 
 * 
-![mean shift result 2](ScreenShots/mean_seg_res3.jpg)
+![mean shift result 2](ScreenShots/mean_seg_res3.JPG)
 
 * 
-![mean shift result 2](ScreenShots/mean_seg_res2.jpg)
+![mean shift result 2](ScreenShots/mean_seg_res2.JPG)
