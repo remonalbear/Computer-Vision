@@ -1,6 +1,5 @@
 # Computer Vision Course - Group Task #4
 
-
 ---
 
 # Team Work:
@@ -18,28 +17,20 @@
 
 | Requiered Part | Title |
 | ----------- | ----------- |
-
 | [#Part 1](#part-1) | Image Thresholding |
 | [#Part 2](#part-2) | Image Segmentation |
-
-
-
 
 
 ---
 
 # Part 1
 
-
 ## Image Thresholding
-
-
-
 
 ---
 
 
 # Part 2 
 
-## Image Segementation
+## Image Segmentation
 
