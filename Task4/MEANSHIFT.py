@@ -1,5 +1,6 @@
 import numpy as np
 from matplotlib import pyplot as plt
+import cv2
 
 """
 An implementation to the mean-shift segmentation on LUV image
@@ -21,7 +22,7 @@ class meanShiftSeg:
 
 
 
-    def __makeColorDataSpace__(self):
+    def makeColorDataSpace(self):
         """
         This function populate the color-space to be clustered
         :return:
@@ -44,14 +45,14 @@ class meanShiftSeg:
         """
        
         print ("Apply shift .... ")
-        self.__makeColorDataSpace__()
+        self.makeColorDataSpace()
         wSize = self.windowSize
         
         numOfWindPerDim = np.int(np.sqrt( self.numofClusters ))
         clustersTemp = []
         for itrRow in range( numOfWindPerDim ):
             for itrCol in range( numOfWindPerDim ):
-                cntrRow, cntrCol = self.__windowIterator__(int(itrRow*wSize),int(itrCol*wSize)) 
+                cntrRow, cntrCol = self.windowIter(int(itrRow*wSize),int(itrCol*wSize)) 
                
                 clustersTemp.append( (cntrRow, cntrCol) )
 
@@ -59,14 +60,14 @@ class meanShiftSeg:
         print (" Clusters formed ")
         print ("Clusters Centers : ")
         print (self.clustersUV)
-        self.__classifyColors__()
+        self.classifyColors()
 
         return self.segmentedImage
 
 
 
 
-    def __windowIterator__(self, row, col):
+    def windowIter(self, row, col):
         """
         This function iterate in the given window indices, to find its center of mass
         :param row:
@@ -81,7 +82,7 @@ class meanShiftSeg:
        
         window = self.colorSpace[ row:row+wSize,col:col+wSize ]
         
-        newRow, newCol = self.__findCntrMass__( window )
+        newRow, newCol = self.findCenterMass( window )
         numOfIter = 0
         while( prevRow != newRow-hWSize and prevCol != newCol-hWSize ):
             if( numOfIter > np.sqrt(self.numofClusters) ):
@@ -93,11 +94,11 @@ class meanShiftSeg:
             nxtRow = int((prevRow+row)%(256-wSize))
             nxtCol = int((prevCol+col)%(256-wSize))
             window = self.colorSpace[ nxtRow:nxtRow+wSize,nxtCol:nxtCol+wSize ]
-            newRow, newCol = self.__findCntrMass__( window )
+            newRow, newCol = self.findCenterMass( window )
             numOfIter += 1
         return row + newRow, col + newCol
 
-    def __classifyColors__(self):
+    def classifyColors(self):
             """
             This function classify the image component based on the its value, which is the index in the color-space
             see also : https://spin.atomicobject.com/2015/05/26/mean-shift-clustering/
@@ -111,17 +112,12 @@ class meanShiftSeg:
                     pixelU = self.segmentedImage[row,col,1]
                     pixelV = self.segmentedImage[row,col,2]
                     windowIdx = np.int( np.int(pixelV/wSize)  + np.int(numOfWindPerDim*( pixelU/wSize )))
-                    # print pixelV/wSize ,windowIdx, numOfWindPerDim, self.numofClusters, self.windowSize
-                    # print self.clustersUV.shape
-                    # exit(1)
-                    # print windowIdx
                     self.segmentedImage[row,col,1] = self.clustersUV[windowIdx, 0]
                     self.segmentedImage[row,col,2] = self.clustersUV[windowIdx, 1]
-                    # self.segmentedImage[row,col,0] = self.image[row,col,0]
 
 
 
-    def __findCntrMass__(self, window):
+    def findCenterMass(self, window):
         """
         Calculate the window's center of mass
         :param window:
@@ -142,7 +138,7 @@ class meanShiftSeg:
             cntrRow = np.round(1.0*momentRow/totalMass)
 
             return cntrRow, cntrCol
-    def __findEclidDist__(self, row, col):
+    def findEclidDist(self, row, col):
         """
         Find the the Euclidean distance for the pixel from its position ( row, col )
         :param row:
@@ -155,3 +151,20 @@ class meanShiftSeg:
 
     def getSegmentedImage(self):
         return self.segmentedImage
+
+if __name__== "__main__":
+    path = "screenshots/seg3.png"
+
+    imageRGB = cv2.imread( path )
+    
+    cv2.imshow("input",imageRGB)
+    
+    imageLUV = cv2.cvtColor( imageRGB, cv2.COLOR_RGB2LUV )
+
+    meanShift = meanShiftSeg( imageLUV, 7 )
+    segImage = meanShift.applyMeanShift()
+    cv2.imwrite("mean_shift_result.jpg",segImage)
+    cv2.imshow( 'image', segImage )
+
+    cv2.waitKey(0)
+    cv2.destroyAllWindows()

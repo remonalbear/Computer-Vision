@@ -34,3 +34,16 @@
 
 ## Image Segmentation
 
+
+### Mean shift segementation
+
+Results:
+
+* 
+![mean shift result 1](ScreenShots/mean_seg_res1.jpg)
+
+* 
+![mean shift result 2](ScreenShots/mean_seg_res3.jpg)
+
+* 
+![mean shift result 2](ScreenShots/mean_seg_res2.jpg)
