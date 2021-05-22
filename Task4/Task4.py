@@ -8,7 +8,23 @@ class Task4 (Ui_MainWindow):
         super(Task4,self).setupUi(MainWindow)
         self.segm_input.setPixmap(QtGui.QPixmap("screenshots/temp.jpg")) #set segmentation input image
         self.segm_output.setPixmap(QtGui.QPixmap("screenshots/kmean.png"))
-        self.select_segm_algo.currentTextChanged.connect(self.display_segm) #calling a function when user select an segmentation algorithm
+        self.select_segm_algo.currentTextChanged.connect(self.display_segm)
+        self.select_thresh_algo.currentTextChanged.connect(self.display_thresh) #calling a function when user select an segmentation algorithm
+    def display_thresh(self, value):
+        if(value == "Optimal(G)"):
+            self.thesh_output.setPixmap(QtGui.QPixmap("screenshots/optimal_global.png"))
+        elif(value == "Otsu(G)"):
+            self.thesh_output.setPixmap(QtGui.QPixmap("screenshots/otsu_global.png"))
+        elif(value == "Spectral(G)"):
+            self.thesh_output.setPixmap(QtGui.QPixmap("screenshots/spectral_global.png"))
+        elif(value == "Optimal(L)"):
+            self.thesh_output.setPixmap(QtGui.QPixmap("screenshots/optimal_local.png"))
+        elif(value == "Otsu(L)"):
+            self.thesh_output.setPixmap(QtGui.QPixmap("screenshots/otsu_local.png"))
+        elif(value == "Spectral(L)"):
+            self.thesh_output.setPixmap(QtGui.QPixmap("screenshots/spectral_local.png"))
+
+    
     def display_segm(self,value):
         if (value == "Mean Shift"):
             self.segm_input.setPixmap(QtGui.QPixmap("screenshots/seg3.png"))
