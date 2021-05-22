@@ -1,18 +1,28 @@
 from UI import Ui_MainWindow
 from UI import *
 from PyQt5 import QtCore, QtGui,QtWidgets
+<<<<<<< HEAD
 import pandas as pd
 import numpy as np
 import random
 import cv2 as cv2
 import imageio
+=======
+import cv2
+from threshold import *
+
+>>>>>>> 8b74f0bb2de865b00301cf73d42166ff11ddab3a
 class Task4 (Ui_MainWindow):
     def __init__(self,MainWindow):
         super(Task4,self).setupUi(MainWindow)
         self.segm_input.setPixmap(QtGui.QPixmap("screenshots/temp.jpg")) #set segmentation input image
         self.segm_output.setPixmap(QtGui.QPixmap("screenshots/kmean.png"))
         self.select_segm_algo.currentTextChanged.connect(self.display_segm) #calling a function when user select an segmentation algorithm
+<<<<<<< HEAD
         self.imageArray = []
+=======
+        self.select_thresh_algo.currentTextChanged.connect(self.display_thresh)
+>>>>>>> 8b74f0bb2de865b00301cf73d42166ff11ddab3a
     def display_segm(self,value):
         if (value == "Mean Shift"):
             self.segm_input.setPixmap(QtGui.QPixmap("screenshots/seg3.png"))
@@ -50,6 +60,7 @@ class Task4 (Ui_MainWindow):
         outy = min(max(y-1,0),maxy)
         out.append((outx,outy))
         
+<<<<<<< HEAD
         #left
         outx = min(max(x-1,0),maxx)
         outy = y
@@ -98,6 +109,22 @@ class Task4 (Ui_MainWindow):
             cv2.waitKey(2)
         return outimg
 
+=======
+    def display_thresh(self, value):
+        input = cv2.imread("screenshots/temp.jpg")
+        if(value == "Optimal(G)"):
+            self.thesh_output.setPixmap(QtGui.QPixmap("screenshots/optimal_global.png"))
+        elif(value == "Otsu(G)"):
+            self.thesh_output.setPixmap(QtGui.QPixmap("screenshots/otsu_global.png"))
+        elif(value == "Spectral(G)"):
+            self.thesh_output.setPixmap(QtGui.QPixmap("screenshots/spectral_global.png"))
+        elif(value == "Optimal(L)"):
+            self.thesh_output.setPixmap(QtGui.QPixmap("screenshots/optimal_local.png"))
+        elif(value == "Otsu(L)"):
+            self.thesh_output.setPixmap(QtGui.QPixmap("screenshots/otsu_local.png"))
+        elif(value == "Spectral(L)"):
+            self.thesh_output.setPixmap(QtGui.QPixmap("screenshots/spectral_local.png"))
+>>>>>>> 8b74f0bb2de865b00301cf73d42166ff11ddab3a
 if __name__ =="__main__":
     import sys
     app=QtWidgets.QApplication(sys.argv)

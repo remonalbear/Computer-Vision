@@ -25,5 +25,6 @@ def otsu_threshold(image):
         BetClsVar = FWeights * BWeights * np.square(BMean - FMean)
         BetweenClassVarsList.append(BetClsVar)
 
-    return BetweenClassVarsList.index(np.nanmax(BetweenClassVarsList))
+    BetweenClassVarsList = list(np.nan_to_num(BetweenClassVarsList))
+    return BetweenClassVarsList.index(np.max(BetweenClassVarsList))
 
