@@ -36,21 +36,21 @@ But choosing the value of the threshold is the real trick and can be done by dif
 ### 1. Optimal threshold
 The optimal thresholding is done using by suing the means of the image and calculating the threshold using iteration to set pur two main reigons.
 #### Global threshold
-![Optmial_Global](screenshots/optimal_global.PNG)
+![Optmial_Global](screenshots/optimal_global.png)
 #### Local threshold
-![Optimal_Local](screenshots/optimal_local.PNG)
+![Optimal_Local](screenshots/optimal_local.png)
 ### 2. Otsu threshold
 The Otsu algorithm is mainly based on select the threshold by calculating the between class variance for every value in the histogram and selecting the threshold based on the value that acheived the higher between class variance.
 #### Global threshold
-![Otsu_Global](screenshots/otsu_global.PNG)
+![Otsu_Global](screenshots/otsu_global.png)
 #### Local threshold
-![Otsu_Localal](screenshots/otsu_local.PNG)
+![Otsu_Localal](screenshots/otsu_local.png)
 ### 3. Spectral threshold
 The spectral algorithm is acheieved by applying on e of the previous algorithm but using the three or more modes ie. Generalizing mode and calculating two or more thresholds and applying the thresholds to the selected image.
 #### Global threshold
-![Spectral_Global](screenshots/spectral_global.PNG)
+![Spectral_Global](screenshots/spectral_global.png)
 #### Local threshold
-![Spectral_Local](screenshots/spectral_local.PNG)
+![Spectral_Local](screenshots/spectral_local.png)
 
 
 ---
@@ -73,4 +73,4 @@ The spectral algorithm is acheieved by applying on e of the previous algorithm b
 
 
 ## Main Program working
-![Program 1](screenshots/P1.PNG)
+![Program 1](screenshots/P1.png)
