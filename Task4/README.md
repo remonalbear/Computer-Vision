@@ -60,7 +60,7 @@ The spectral algorithm is acheieved by applying on e of the previous algorithm b
 
 ## Image Thresholding
 ### Mean shift segementation
-Results:
+
 
 * 
 ![mean shift result 1](screenshots/mean_seg_res1.JPG)
@@ -70,3 +70,7 @@ Results:
 
 * 
 ![mean shift result 2](screenshots/mean_seg_res2.JPG)
+
+
+## Main Program working
+![Program 1](screenshots/P1.PNG)
