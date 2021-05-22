@@ -126,7 +126,7 @@ agglo.fit(pixels)
 
 new_img = [[agglo.predict_center(list(pixel)) for pixel in row] for row in img]
 new_img = np.array(new_img, np.uint8)
-mpimg.imsave("agglomerative.png", new_img)
+# mpimg.imsave("agglomerative.png", new_img)
 
 plt.figure(figsize=(15,15))
 
