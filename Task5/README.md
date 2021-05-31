@@ -28,6 +28,11 @@
 # Part 1
 
 ## Face Detection
+We used Open-Cv to detect faces in images (grayscale or rgb),by unsing pre-trained cascaded classifier
+Results:
+
+* 27 face are detected   
+![detection results 1](screenshots\detected_faces.jpg)
 
 ---
 

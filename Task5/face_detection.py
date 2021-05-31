@@ -29,6 +29,5 @@ if __name__ == '__main__':
     path='screenshots\\faces.jpeg'
     num,image=face_detection(path)
     print("detect: "+str(num)+" faces")
-    cv2.imwrite('screenshots/detected_faces.jpg',image)
     cv2.imshow("Faces found", image)
     cv2.waitKey(0)
