@@ -68,7 +68,7 @@ def face_recog(testimage):
         print("No face Detected in the image!")
 
     #Classify the image belongs to which class
-    thres_2 = 3000
+    thres_2 = 10000
     smallest_value =None # to keep track of the smallest value
     index = None #to keep track of the class that produces the smallest value
     for z in range(tot_images):#Loop through all the image vectors
@@ -85,11 +85,11 @@ def face_recog(testimage):
         print("The image matches the dataset of face in folder: ",names[index])
         # plt.imshow(all_img[index],cmap='gray')
         # plt.show()
-        return all_img[index]
+        return names[index], all_img[index]
     else:
         print("unknown Face")
         return []
 
 
-image = face_recog('test.pgm')
-print(image)
+# image = face_recog('test.pgm')
+# print(image)
