@@ -25,9 +25,9 @@ def face_detection(path):
 
     return len(faces),image     
 
-if __name__ == '__main__':
-    path='screenshots\\faces.jpeg'
-    num,image=face_detection(path)
-    print("detect: "+str(num)+" faces")
-    cv2.imshow("Faces found", image)
-    cv2.waitKey(0)
+# if __name__ == '__main__':
+#     path='screenshots\\faces.jpeg'
+#     num,image=face_detection(path)
+#     print("detect: "+str(num)+" faces")
+#     cv2.imshow("Faces found", image)
+#     cv2.waitKey(0)
