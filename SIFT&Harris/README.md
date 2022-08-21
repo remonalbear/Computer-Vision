@@ -87,12 +87,6 @@ We used two methods to do the matching process:
 
 2. Matching using Normalized cross-correlation
    * Where we calculate the coorelation between the descriptor's vector elements, normalize the result and selecting the highest value of correlation which corresponds to the best match available
-   ![Matching Features](screenshots/nor_lena.PNG)
 
 
 
-
-# Final Program
-
-
-![Program](screenshots/final.png)

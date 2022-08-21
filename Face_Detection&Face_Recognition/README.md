@@ -19,7 +19,6 @@
 | ----------- | ----------- |
 | [#Part 1](#part-1) | Face Detection |
 | [#Part 2](#part-2) | Face Recognition |
-| [#Part 3](#part-3) | ROC |
 
 
 
@@ -89,9 +88,6 @@ each image is represented using eigenvectors. So, Each image is then subtracted 
 the output image from the data set is ...
 ![TwoClasses](screenshots/output.PNG)
 
----
-# Part 3
 
-## ROC
 
 
